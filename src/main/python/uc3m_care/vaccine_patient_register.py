@@ -14,6 +14,13 @@ class VaccinePatientRegister:
         justnow = datetime.utcnow()
         self.__time_stamp = datetime.timestamp(justnow)
 
+        # RF1 -> evitamos que cambie la hora (borrar despues, solo sirve para los tests)
+        self.__time_stamp = 1646300783.846215
+
+        # RF2
+        # self.__patient_sys_id = self.patient_system_id
+
+
     def __str__(self):
         return "VaccinePatientRegister:" + json.dumps(self.__dict__)
 
