@@ -3,9 +3,19 @@ import hashlib
 import json
 from datetime import datetime
 
+
 class VaccinePatientRegister:
     """Class representing the register of the patient in the system"""
-    def __init__(self, patient_id, full_name, registration_type, phone_number, age):
+    # def __init__(self, patient_id, full_name, registration_type, phone_number, age):
+    def __init__(self, paciente):
+        # Obtenemos las variables del diccionario
+        patient_id = paciente['patient_id']
+        registration_type = paciente['registration_type']
+        full_name = paciente['name']
+        phone_number = paciente['phone_number']
+        age = paciente['age']
+
+        # Creamos los atributos
         self.__patient_id = patient_id
         self.__full_name = full_name
         self.__registration_type = registration_type
@@ -25,37 +35,40 @@ class VaccinePatientRegister:
         return "VaccinePatientRegister:" + json.dumps(self.__dict__)
 
     @property
-    def full_name( self ):
+    def full_name(self):
         """Property representing the name and the surname of
         the person who request the registration"""
         return self.__full_name
 
     @full_name.setter
-    def full_name( self, value ):
+    def full_name(self, value):
         self.__full_name = value
 
     @property
-    def vaccine_type( self ):
+    def vaccine_type(self):
         """Property representing the type vaccine"""
         return self.__registration_type
+
     @vaccine_type.setter
-    def vaccine_type( self, value ):
+    def vaccine_type(self, value):
         self.__registration_type = value
 
     @property
-    def phone_number( self ):
+    def phone_number(self):
         """Property representing the requester's phone number"""
         return self.__phone_number
+
     @phone_number.setter
-    def phone_number( self, value ):
+    def phone_number(self, value):
         self.__phone_number = value
 
     @property
-    def patient_id( self ):
+    def patient_id(self):
         """Property representing the requester's UUID"""
         return self.__patient_id
+
     @patient_id.setter
-    def patient_id( self, value ):
+    def patient_id(self, value):
         self.__patient_id = value
 
     @property
@@ -64,11 +77,11 @@ class VaccinePatientRegister:
         return self.__time_stamp
 
     @property
-    def patient_system_id( self ):
+    def patient_system_id(self):
         """Returns the md5 signature"""
         return hashlib.md5(self.__str__().encode()).hexdigest()
 
     @property
-    def patient_age( self ):
+    def patient_age(self):
         """Returns the patient's age"""
         return self.__age
