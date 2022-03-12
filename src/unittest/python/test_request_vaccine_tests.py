@@ -14,7 +14,8 @@ class MyTestCase(unittest.TestCase):
         """Test de la funcion request_vaccination_id"""
         my_request = VaccineManager()
 
-        value = my_request.request_vaccination_id("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0", "Regular", "Carmen Carrero", "123456789", "22")
+        value = my_request.request_vaccination_id("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0", "Regular", "Carmen Carrero",
+                                                  "123456789", "22")
         self.assertEqual("3467d3fbe384b32f2629074e7db3dd91", value)
 
 

@@ -5,7 +5,7 @@ from datetime import datetime
 
 class VaccinePatientRegister:
     """Class representing the register of the patient in the system"""
-    def __init__( self, patient_id, full_name, registration_type, phone_number, age ):
+    def __init__(self, patient_id, full_name, registration_type, phone_number, age):
         self.__patient_id = patient_id
         self.__full_name = full_name
         self.__registration_type = registration_type
