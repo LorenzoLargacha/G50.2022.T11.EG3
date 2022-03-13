@@ -122,7 +122,7 @@ class VaccineManager:
     # def request_vaccination_id(self, patient_id, registration_type, name, phone_number, age):
     def request_vaccination_id(self, paciente):
         """Creamos un nuevo paciente con los atributos pasdos como parametro,
-        y devolvemos el paciente"""
+        y devolvemos el patient_system_id del paciente"""
         # Obtenemos las variables del diccionario
         patient_id = paciente['patient_id']
         registration_type = paciente['registration_type']
