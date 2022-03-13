@@ -1,4 +1,4 @@
-"""Module """
+"""Module"""
 import json
 import re
 # import uuid
@@ -15,7 +15,7 @@ class VaccineManager:
 
     @staticmethod
     def validate_guid(guid):
-        """RETURN TRUE IF THE GUID v4 IS RIGHT, OR FALSE IN OTHER CASE"""
+        """RETURN TRUE IF THE GUID v4 IS RIGHT, OR EXCEPTION IN OTHER CASE"""
         try:
             # my_uuid = uuid.UUID(guid)
             myregex = re.compile(r'^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-'
@@ -26,6 +26,31 @@ class VaccineManager:
                 raise VaccineManagementException("Invalid UUID v4 format")
         except ValueError as ex:
             raise VaccineManagementException("Id received is not a UUID") from ex
+        return True
+
+    @staticmethod
+    def validate_registration_type(registration_type):
+        """Return True si el registration_type es correcto, en otro caso Excepcion"""
+        return True
+
+    @staticmethod
+    def validate_name_surname(name):
+        """Return True si el name es correcto, en otro caso Excepcion"""
+        return True
+
+    @staticmethod
+    def validate_phone_number(phone_number):
+        """Return True si el phone_number es correcto, en otro caso Excepcion"""
+        return True
+
+    @staticmethod
+    def validate_age(age):
+        """Return True si age es correcto, en otro caso Excepcion"""
+        return True
+
+    @staticmethod
+    def validate_json_data(file_store, paciente):
+        """Return True si paciente se encuentra en el fichero, False en otro caso"""
         return True
 
     # def request_vaccination_id(self, patient_id, registration_type, name, phone_number, age):

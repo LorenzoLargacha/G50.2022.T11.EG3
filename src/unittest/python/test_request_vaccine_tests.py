@@ -54,8 +54,17 @@ class MyTestCase(unittest.TestCase):
         for item in data_list:
             # Si el patient_id se encuentra en el fichero
             if item["_VaccinePatientRegister__patient_id"] == \
-                    "bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0":
-                found = True
+                    paciente['patient_id']:
+                # Comprobamos el tipo de registro, el nombre, el numero de telefono y la edad
+                if (item["_VaccinePatientRegister__registration_type"] ==
+                    paciente['registration_type']) \
+                        and (item["_VaccinePatientRegister__full_name"] ==
+                             paciente['name']) \
+                        and (item["_VaccinePatientRegister__phone_number"] ==
+                             paciente['phone_number']) \
+                        and (item["_VaccinePatientRegister__age"] ==
+                             paciente['age']):
+                    found = True
 
         # Comprobamos si el resultado es el esperado
         self.assertTrue(found)
