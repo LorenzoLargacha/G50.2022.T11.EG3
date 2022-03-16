@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="test_request_vaccine_tests.MyTestCase-20220309224734" tests="1" file="test_request_vaccine_tests.py" time="0.001" timestamp="2022-03-09T22:47:34" failures="0" errors="0" skipped="0">
-	<testcase classname="test_request_vaccine_tests.MyTestCase" name="test_something" time="0.001" timestamp="2022-03-09T22:47:34"/>
-</testsuite>
