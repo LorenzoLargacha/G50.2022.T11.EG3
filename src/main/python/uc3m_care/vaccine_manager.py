@@ -23,7 +23,7 @@ class VaccineManager:
                                  re.IGNORECASE)
             res = myregex.fullmatch(guid)
             if not res:
-                raise VaccineManagementException("Invalid UUID v4 format")
+                raise VaccineManagementException("Formato del UUID invalido")
         except ValueError as ex:
             raise VaccineManagementException("El Id recibido no es un UUID") from ex
         return True
@@ -31,7 +31,7 @@ class VaccineManager:
     @staticmethod
     def validate_registration_type(registration_type):
         """Return True si el registration_type es correcto, en otro caso Excepcion"""
-        if registration_type in("Regular", "Family"):
+        if registration_type in ("Regular", "Family"):
             return True
         raise VaccineManagementException("Tipo de vacunacion solicitada incorrecta")
 
@@ -93,7 +93,7 @@ class VaccineManager:
                 data_list = json.load(file)
         except FileNotFoundError as ex:
             # En caso de que el fichero no exista, mostramos una excepcion
-            raise VaccineManagementException("El fichero no existe") from ex
+            raise VaccineManagementException("Fichero no creado") from ex
         except json.JSONDecodeError as ex:
             # Si se produce un error al decodificar mostaramos una excepcion
             raise VaccineManagementException(
