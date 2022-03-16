@@ -173,9 +173,18 @@ param_list_nok = [("bb5dbd6f-d8b4-113f-8eb9-dd262cfc54e0",
                   ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
                    "Regular", "Carmen Carrero", "1234567899", "22",
                    "Telefono con mas de 9 digitos", "test_12"),
-
-
-
+                  ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
+                   "Regular", "Carmen Carrero", "teléfono", "22",
+                   "Telefono no es un numero", "test_13"),
+                  ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
+                   "Regular", "Carmen Carrero", "123456789", "5",
+                   "Edad menor de 6 años", "test_14"),
+                  ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
+                   "Regular", "Carmen Carrero", "123456789", "126",
+                   "Edad mayor de 125 años", "test_15"),
+                  ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
+                   "Regular", "Carmen Carrero", "123456789", "diez",
+                   "La edad no es un numero", "test_16"),
                   ]
 
 if __name__ == '__main__':
