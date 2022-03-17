@@ -55,8 +55,9 @@ class VaccineManager:
         # lo pasamos a numero entero
         # si no se puede convertir mostramos una excepcion
         try:
-            phone_number_int = int(phone_number)
-            phone_number_int = phone_number_int + 0
+            int(phone_number)
+            # phone_number_int = int(phone_number)
+            # phone_number_int = phone_number_int + 0
         except ValueError as ex:
             raise VaccineManagementException("Telefono no es un numero") from ex
 
@@ -111,11 +112,11 @@ class VaccineManager:
                 if (item["_VaccinePatientRegister__registration_type"] ==
                     paciente['registration_type']) \
                         and (item["_VaccinePatientRegister__full_name"] ==
-                                paciente['name']) \
+                             paciente['name']) \
                         and (item["_VaccinePatientRegister__phone_number"] ==
-                                paciente['phone_number']) \
+                             paciente['phone_number']) \
                         and (item["_VaccinePatientRegister__age"] ==
-                                paciente['age']):
+                             paciente['age']):
                     found = True
         return found
 
@@ -144,7 +145,7 @@ class VaccineManager:
             my_register = VaccinePatientRegister(paciente)
 
             try:
-                # Intenamos abrir el fichero JSON
+                # Intentamos abrir el fichero JSON
                 with open(file_store, "r", encoding="UTF-8", newline="") as file:
                     # Guardamos los datos del fichero en una lista
                     data_list = json.load(file)
@@ -174,7 +175,7 @@ class VaccineManager:
                 data_list.append(my_register.__dict__)
 
                 try:
-                    # Intenamos abrir el fichero JSON para escribir
+                    # Intentamos abrir el fichero JSON para escribir
                     with open(file_store, "w", encoding="UTF-8", newline="") as file:
                         # Serializamos el objeto y guardamos los datos en el fichero
                         json.dump(data_list, file, indent=2)

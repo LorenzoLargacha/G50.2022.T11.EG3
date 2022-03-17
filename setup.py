@@ -1,3 +1,4 @@
+"""Setup"""
 #!/usr/bin/env python
 #   -*- coding: utf-8 -*-
 #
@@ -40,6 +41,7 @@ if py2:
 
 
 def install_pyb():
+    """Install pyb"""
     try:
         subprocess.check_call([sys.executable, "-m", "pip", "install", "pybuilder"])
     except subprocess.CalledProcessError as e:
