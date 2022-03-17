@@ -1,7 +1,7 @@
 """Module"""
 import json
 import re
-# import uuid
+import uuid
 from pathlib import Path
 
 from .vaccine_patient_register import VaccinePatientRegister
@@ -17,7 +17,7 @@ class VaccineManager:
     def validate_guid(guid):
         """RETURN TRUE IF THE GUID v4 IS RIGHT, OR EXCEPTION IN OTHER CASE"""
         try:
-            # my_uuid = uuid.UUID(guid)
+            uuid.UUID(guid)
             myregex = re.compile(r'^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-'
                                  r'[0-9A-F]{12}$',
                                  re.IGNORECASE)
@@ -132,7 +132,7 @@ class VaccineManager:
         age = paciente['age']
 
         # Buscamos la ruta en la que se almacena el fichero
-        json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles"
+        json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF1"
         file_store = json_files_path + "/store_patient.json"
 
         # Comprobamos si los atributos son validos

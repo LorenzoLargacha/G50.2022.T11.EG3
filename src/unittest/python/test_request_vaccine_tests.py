@@ -20,7 +20,7 @@ class MyTestCase(unittest.TestCase):
     def test_1_request_vaccination_id_ok(self):
         """Test valido de la funcion request_vaccination_id"""
         # Buscamos la ruta en la que se almacena el fichero
-        json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles"
+        json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF1"
         file_store = json_files_path + "/store_patient.json"
 
         # Si el fichero ya existe, lo borramos para no tener datos precargados
@@ -51,7 +51,7 @@ class MyTestCase(unittest.TestCase):
     def test_2_request_vaccination_id_ok(self):
         """Test valido de la funcion request_vaccination_id"""
         # Buscamos la ruta en la que se almacena el fichero
-        json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles"
+        json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF1"
         file_store = json_files_path + "/store_patient.json"
 
         # Si el fichero ya existe, lo borramos para no tener datos precargados
@@ -82,7 +82,7 @@ class MyTestCase(unittest.TestCase):
     def test_parametrized_not_valid_request_vaccination_id(self):
         """Tests no validos de la funcion request_vaccination_id (parametrizados)"""
         # Buscamos la ruta en la que se almacena el fichero
-        json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles"
+        json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF1"
         file_store = json_files_path + "/store_patient.json"
 
         # Si el fichero ya existe, lo borramos para no tener datos precargados
@@ -121,7 +121,7 @@ class MyTestCase(unittest.TestCase):
         """Test no valido de la funcion validate_json_data,
         los datos no son válidos y no se guardan en el fichero"""
         # Buscamos la ruta en la que se almacena el fichero
-        json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles"
+        json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF1"
         file_store = json_files_path + "/store_patient.json"
 
         # Si el fichero ya existe, lo borramos para no tener datos precargados
@@ -177,7 +177,7 @@ param_list_nok = [("bb5dbd6f-d8b4-113f-8eb9-dd262cfc54e0",
                    "Formato del UUID invalido", "test_6"),
                   ("zb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
                    "Regular", "Carmen Carrero", "123456789", "22",
-                   "Formato del UUID invalido", "test_7"),
+                   "El Id recibido no es un UUID", "test_7"),
                   ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
                    "Single", "Carmen Carrero", "123456789", "22",
                    "Tipo de vacunacion solicitada incorrecta", "test_8"),
