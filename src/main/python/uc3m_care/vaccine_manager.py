@@ -9,13 +9,14 @@ from .vaccine_management_exception import VaccineManagementException
 
 
 class VaccineManager:
-    """Class for providing the methods for managing the vaccination process"""
+    """ Class for providing the methods for managing the vaccination process """
+
     def __init__(self):
         pass
 
     @staticmethod
     def validate_guid(guid):
-        """RETURN TRUE IF THE GUID v4 IS RIGHT, OR EXCEPTION IN OTHER CASE"""
+        """ RETURN TRUE IF THE GUID v4 IS RIGHT, OR EXCEPTION IN OTHER CASE """
         try:
             uuid.UUID(guid)
             myregex = re.compile(r'^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-'
@@ -30,14 +31,14 @@ class VaccineManager:
 
     @staticmethod
     def validate_registration_type(registration_type):
-        """Return True si el registration_type es correcto, en otro caso Excepcion"""
+        """ Return True si el registration_type es correcto, en otro caso Excepcion """
         if registration_type in ("Regular", "Family"):
             return True
         raise VaccineManagementException("Tipo de vacunacion solicitada incorrecta")
 
     @staticmethod
     def validate_name_surname(name):
-        """Return True si el name es correcto, en otro caso Excepcion"""
+        """ Return True si el name es correcto, en otro caso Excepcion """
         if len(name) > 30:
             raise VaccineManagementException("Cadena de nombre y apellidos mayor de 30 caracteres")
         # La funcion find encuentra el primer espacio que haya en la cadena,
@@ -50,7 +51,7 @@ class VaccineManager:
 
     @staticmethod
     def validate_phone_number(phone_number):
-        """Return True si el phone_number es correcto, en otro caso Excepcion"""
+        """ Return True si el phone_number es correcto, en otro caso Excepcion """
         # para comprobar si el telefono son solo digitos,
         # lo pasamos a numero entero
         # si no se puede convertir lanzamos una excepcion
@@ -67,7 +68,7 @@ class VaccineManager:
 
     @staticmethod
     def validate_age(age):
-        """Return True si age es correcto, en otro caso Excepcion"""
+        """ Return True si age es correcto, en otro caso Excepcion """
         # para comprobar si la edad son solo digitos,
         # lo pasamos a numero entero
         # si no se puede convertir lanzamoa una excepcion
@@ -84,7 +85,7 @@ class VaccineManager:
 
     @staticmethod
     def validate_json_data(file_store, paciente):
-        """Metodo para comprobar si un paciente esta en el fichero Json"""
+        """ Metodo para comprobar si un paciente esta en el fichero Json """
         # Return True si paciente se encuentra en el fichero, False en otro caso
         try:
             # Intentamos abrir el fichero JSON
@@ -120,8 +121,8 @@ class VaccineManager:
         return found
 
     def request_vaccination_id(self, paciente):
-        """Creamos un nuevo paciente con los atributos pasdos como parametro,
-        y devolvemos el patient_system_id del paciente"""
+        """ Creamos un nuevo paciente con los atributos pasdos como parametro,
+        y devolvemos el patient_system_id del paciente """
         # Utilizamos un diccionario para pasar los parametros
         # para reducir el numero de argumentos (pylint)
         # Obtenemos las variables del diccionario
