@@ -8,8 +8,8 @@ use_plugin("python.coverage")
 use_plugin("python.distutils")
 use_plugin("python.pycharm")
 
-NAME = "GE3_2022"
-DEFAULT_TASK = "publish"
+name = "GE3_2022"
+default_task = "publish"
 
 
 @init

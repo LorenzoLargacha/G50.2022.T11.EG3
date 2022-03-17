@@ -4,21 +4,14 @@ import json
 from pathlib import Path
 import unittest
 
-from datetime import datetime
 from uc3m_care import VaccineManager
 from uc3m_care import VaccineManagementException
-
-from freezegun import freeze_time
 
 
 class MyTestCase(unittest.TestCase):
 
-    """def test_something( self ):
-        #self.assertEqual(True, False)
-        self.assertEqual(True, True)"""
-
-    def test_1_request_vaccination_id_ok(self):
-        """Test valido de la funcion request_vaccination_id"""
+    def test_parametrized_valid_request_vaccination_id(self):
+        """Tests validos de la funcion request_vaccination_id (parametrizados)"""
         # Buscamos la ruta en la que se almacena el fichero
         json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF1"
         file_store = json_files_path + "/store_patient.json"
@@ -30,54 +23,28 @@ class MyTestCase(unittest.TestCase):
         # Seleccionamos la clase sobre la que se ejecuta el test
         my_request = VaccineManager()
 
-        # Guardamos los atributos en un diccionario
-        paciente = {}
-        paciente['patient_id'] = "bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0"
-        paciente['registration_type'] = "Regular"
-        paciente['name'] = "Carmen Carrero"
-        paciente['phone_number'] = "123456789"
-        paciente['age'] = "22"
+        # Cargamos los parametros de la lista
+        for p1, p2, p3, p4, p5, p6, p7 in param_list_ok:
+            # Guardamos los atributos en un diccionario
+            paciente = {}
+            paciente['patient_id'] = p1
+            paciente['registration_type'] = p2
+            paciente['name'] = p3
+            paciente['phone_number'] = p4
+            paciente['age'] = p5
 
-        # Llamamos al metodo request_vaccination_id
-        value = my_request.request_vaccination_id(paciente)
-        # Comprobamos si el resultado es el esperado
-        self.assertEqual("3467d3fbe384b32f2629074e7db3dd91", value)
+            # Llamamos al metodo request_vaccination_id
+            value = my_request.request_vaccination_id(paciente)
+            # Comprobamos si el resultado es el esperado
+            self.assertEqual(p6, value)
 
-        # Llamamos al metodo validate_json_data
-        found = my_request.validate_json_data(file_store, paciente)
-        # Comprobamos si el resultado es el esperado
-        self.assertTrue(found)
+            # Llamamos al metodo validate_json_data
+            found = my_request.validate_json_data(file_store, paciente)
+            # Comprobamos si el resultado es el esperado
+            self.assertTrue(found)
 
-    def test_2_request_vaccination_id_ok(self):
-        """Test valido de la funcion request_vaccination_id"""
-        # Buscamos la ruta en la que se almacena el fichero
-        json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF1"
-        file_store = json_files_path + "/store_patient.json"
-
-        # Si el fichero ya existe, lo borramos para no tener datos precargados
-        if os.path.isfile(file_store):
-            os.remove(file_store)
-
-        # Seleccionamos la clase sobre la que se ejecuta el test
-        my_request = VaccineManager()
-
-        # Guardamos los atributos en un diccionario
-        paciente = {}
-        paciente['patient_id'] = "bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0"
-        paciente['registration_type'] = "Family"
-        paciente['name'] = "Carmen Carrero"
-        paciente['phone_number'] = "123456789"
-        paciente['age'] = "22"
-
-        # Llamamos al metodo request_vaccination_id
-        value = my_request.request_vaccination_id(paciente)
-        # Comprobamos si el resultado es el esperado
-        self.assertEqual("b7f631c7c29d52a20b965b5ca7ab6c24", value)
-
-        # Llamamos al metodo validate_json_data
-        found = my_request.validate_json_data(file_store, paciente)
-        # Comprobamos si el resultado es el esperado
-        self.assertTrue(found)
+            # Mostramos el test que se esta ejecutando
+            print(p7)
 
     def test_parametrized_not_valid_request_vaccination_id(self):
         """Tests no validos de la funcion request_vaccination_id (parametrizados)"""
@@ -108,14 +75,15 @@ class MyTestCase(unittest.TestCase):
                     my_request.request_vaccination_id(paciente)
                 # Confirmamos que se lanza la excepcion esperada
                 self.assertEqual(cm.exception.message, p6)
-                # Mostramos el test que se esta ejecutando
-                print(p7)
 
             # Llamamos al metodo validate_json_data
             with self.assertRaises(VaccineManagementException) as cm:
                 my_request.validate_json_data(file_store, paciente)
             # Comprobamos si el resultado es el esperado
             self.assertEqual("Fichero no creado", cm.exception.message)
+
+            # Mostramos el test que se esta ejecutando
+            print(p7)
 
     def test_17_validate_json_data_nok(self):
         """Test no valido de la funcion validate_json_data,
@@ -161,6 +129,14 @@ class MyTestCase(unittest.TestCase):
         # Comprobamos si el resultado es el esperado
         self.assertFalse(found)
 
+
+# Parametros para los test valid request vaccination id
+param_list_ok = [("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
+                  "Regular", "Carmen Carrero", "123456789", "22",
+                  "3467d3fbe384b32f2629074e7db3dd91", "test_1"),
+                 ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
+                  "Family", "Carmen Carrero", "123456789", "22",
+                  "b7f631c7c29d52a20b965b5ca7ab6c24", "test_2")]
 
 # Parametros para los test not valid request vaccination id
 param_list_nok = [("bb5dbd6f-d8b4-113f-8eb9-dd262cfc54e0",
