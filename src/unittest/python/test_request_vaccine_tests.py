@@ -26,6 +26,7 @@ class MyTestCase(unittest.TestCase):
         # Cargamos los parametros de la lista
         for p1, p2, p3, p4, p5, p6, p7 in param_list_ok:
             # Guardamos los atributos en un diccionario
+            # Utilizamos un diccionario para reducir el numero de argumentos (pylint)
             paciente = {}
             paciente['patient_id'] = p1
             paciente['registration_type'] = p2
@@ -88,6 +89,7 @@ class MyTestCase(unittest.TestCase):
     def test_17_validate_json_data_nok(self):
         """Test no valido de la funcion validate_json_data,
         los datos no son válidos y no se guardan en el fichero"""
+
         # Buscamos la ruta en la que se almacena el fichero
         json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF1"
         file_store = json_files_path + "/store_patient.json"
@@ -128,6 +130,48 @@ class MyTestCase(unittest.TestCase):
         found = my_request.validate_json_data(file_store, paciente)
         # Comprobamos si el resultado es el esperado
         self.assertFalse(found)
+
+        # Mostramos el test que se esta ejecutando
+        print("test_17")
+
+    def test_18_validate_json_data_nok(self):
+        """Test no valido de la funcion validate_json_data,
+        los datos son válidos y no se guardan en el fichero porque ya estan guardados"""
+        # Buscamos la ruta en la que se almacena el fichero
+        json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF1"
+        file_store = json_files_path + "/store_patient.json"
+
+        # Si el fichero ya existe, lo borramos para no tener datos precargados
+        if os.path.isfile(file_store):
+            os.remove(file_store)
+
+        # Seleccionamos la clase sobre la que se ejecuta el test
+        my_request = VaccineManager()
+
+        # Guardamos los atributos de un paciente para tener datos precargados
+        paciente = {}
+        paciente['patient_id'] = "bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0"
+        paciente['registration_type'] = "Regular"
+        paciente['name'] = "Carmen Carrero"
+        paciente['phone_number'] = "123456789"
+        paciente['age'] = "22"
+
+        # Llamamos al metodo request_vaccination_id para que se guarden los datos en el fichero
+        my_request.request_vaccination_id(paciente)
+
+        # Llamamos al metodo request_vaccination_id de nuevo
+        with self.assertRaises(VaccineManagementException) as cm:
+            value = my_request.request_vaccination_id(paciente)
+        # Comprobamos si el resultado es el esperado
+        self.assertEqual("Paciente ya registrado", cm.exception.message)
+
+        # Llamamos al metodo validate_json_data
+        found = my_request.validate_json_data(file_store, paciente)
+        # Comprobamos si el resultado es el esperado (ya estaba guardado)
+        self.assertTrue(found)
+
+        # Mostramos el test que se esta ejecutando
+        print("test_18")
 
 
 # Parametros para los test valid request vaccination id

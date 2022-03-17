@@ -53,11 +53,9 @@ class VaccineManager:
         """Return True si el phone_number es correcto, en otro caso Excepcion"""
         # para comprobar si el telefono son solo digitos,
         # lo pasamos a numero entero
-        # si no se puede convertir mostramos una excepcion
+        # si no se puede convertir lanzamos una excepcion
         try:
             int(phone_number)
-            # phone_number_int = int(phone_number)
-            # phone_number_int = phone_number_int + 0
         except ValueError as ex:
             raise VaccineManagementException("Telefono no es un numero") from ex
 
@@ -72,7 +70,7 @@ class VaccineManager:
         """Return True si age es correcto, en otro caso Excepcion"""
         # para comprobar si la edad son solo digitos,
         # lo pasamos a numero entero
-        # si no se puede convertir mostramos una excepcion
+        # si no se puede convertir lanzamoa una excepcion
         try:
             age_int = int(age)
         except ValueError as ex:
@@ -86,14 +84,15 @@ class VaccineManager:
 
     @staticmethod
     def validate_json_data(file_store, paciente):
-        """Return True si paciente se encuentra en el fichero, False en otro caso"""
+        """Metodo para comprobar si un paciente esta en el fichero Json"""
+        # Return True si paciente se encuentra en el fichero, False en otro caso
         try:
             # Intentamos abrir el fichero JSON
             with open(file_store, "r", encoding="UTF-8", newline="") as file:
                 # Guardamos los datos del fichero en una lista
                 data_list = json.load(file)
         except FileNotFoundError as ex:
-            # En caso de que el fichero no exista, mostramos una excepcion
+            # En caso de que el fichero no exista, lanzamos una excepcion
             raise VaccineManagementException("Fichero no creado") from ex
         except json.JSONDecodeError as ex:
             # Si se produce un error al decodificar mostaramos una excepcion
@@ -120,10 +119,11 @@ class VaccineManager:
                     found = True
         return found
 
-    # def request_vaccination_id(self, patient_id, registration_type, name, phone_number, age):
     def request_vaccination_id(self, paciente):
         """Creamos un nuevo paciente con los atributos pasdos como parametro,
         y devolvemos el patient_system_id del paciente"""
+        # Utilizamos un diccionario para pasar los parametros
+        # para reducir el numero de argumentos (pylint)
         # Obtenemos las variables del diccionario
         patient_id = paciente['patient_id']
         registration_type = paciente['registration_type']
@@ -165,8 +165,8 @@ class VaccineManager:
                 if item["_VaccinePatientRegister__patient_id"] == patient_id:
                     # Comprobamos si coincide el tipo de registro que se quiere realizar
                     # y si es del mismo tipo y coincide el nombre registrado found = True
-                    if (item["_VaccinePatientRegister__registration_type"] == registration_type) \
-                            and (item["_VaccinePatientRegister__full_name" == name]):
+                    if (item["_VaccinePatientRegister__registration_type"] == registration_type)\
+                            and (item["_VaccinePatientRegister__full_name"] == name):
                         found = True
 
             # Si ese paciente no se ecuentra en el fichero lo guardamos
@@ -180,11 +180,11 @@ class VaccineManager:
                         # Serializamos el objeto y guardamos los datos en el fichero
                         json.dump(data_list, file, indent=2)
                 except FileNotFoundError as ex:
-                    # Si no existe el fichero mostramos una excepcion
+                    # Si no existe el fichero lanzamos una excepcion
                     raise VaccineManagementException(
                         "JSON file not found error - fichero o ruta incorrectos") from ex
 
-            # Si ese paciente ya se ecuentra en el fichero mostramos una excepcion
+            # Si ese paciente ya se ecuentra en el fichero lanzamos una excepcion
             if found is True:
                 raise VaccineManagementException("Paciente ya registrado")
 
