@@ -109,7 +109,7 @@ class MyTestCase(unittest.TestCase):
         patient_id = "bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0"
         registration_type = "Regular"
         name = "Carmen Carrero"
-        phone_number = "123456789"
+        phone_number = "+34123456789"
         age = "22"
 
         # Llamamos al metodo request_vaccination_id para que se guarden los datos en el fichero
@@ -119,7 +119,7 @@ class MyTestCase(unittest.TestCase):
         patient_id = "bb5dbd6f-d8b4-113f-8eb9-dd262cfc54e0"
         registration_type = "Regular"
         name = "Juan Martínez"
-        phone_number = "666666666"
+        phone_number = "+34666666666"
         age = "37"
 
         # Llamamos al metodo request_vaccination_id
@@ -156,7 +156,7 @@ class MyTestCase(unittest.TestCase):
         patient_id = "bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0"
         registration_type = "Regular"
         name = "Carmen Carrero"
-        phone_number = "123456789"
+        phone_number = "+34123456789"
         age = "22"
 
         # Llamamos al metodo request_vaccination_id para que se guarden los datos en el fichero
@@ -215,54 +215,54 @@ class MyTestCase(unittest.TestCase):
 
 # Parametros para los test valid request vaccination id
 param_list_ok = [("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
-                  "Regular", "Carmen Carrero", "123456789", "22",
-                  "3467d3fbe384b32f2629074e7db3dd91", "test_1"),
+                  "Regular", "Carmen Carrero", "+34123456789", "22",
+                  "3d314edde35bb1b7a0e84bdacf9f31ba", "test_1"),
                  ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
-                  "Family", "Carmen Carrero", "123456789", "22",
-                  "b7f631c7c29d52a20b965b5ca7ab6c24", "test_2")]
+                  "Family", "Carmen Carrero", "+34123456789", "22",
+                  "67e7b392d7098f4f666e18dff9e9add1", "test_2")]
 
 # Parametros para los test not valid request vaccination id
 param_list_nok = [("bb5dbd6f-d8b4-113f-8eb9-dd262cfc54e0",
-                   "Regular", "Carmen Carrero", "123456789", "22",
+                   "Regular", "Carmen Carrero", "+34123456789", "22",
                    "Formato del UUID invalido", "test_3"),
                   ("bb5dbd6f-d8b4-213f-8eb9-dd262cfc54e0",
-                   "Regular", "Carmen Carrero", "123456789", "22",
+                   "Regular", "Carmen Carrero", "+34123456789", "22",
                    "Formato del UUID invalido", "test_4"),
                   ("bb5dbd6f-d8b4-313f-8eb9-dd262cfc54e0",
-                   "Regular", "Carmen Carrero", "123456789", "22",
+                   "Regular", "Carmen Carrero", "+34123456789", "22",
                    "Formato del UUID invalido", "test_5"),
                   ("bb5dbd6f-d8b4-513f-8eb9-dd262cfc54e0",
-                   "Regular", "Carmen Carrero", "123456789", "22",
+                   "Regular", "Carmen Carrero", "+34123456789", "22",
                    "Formato del UUID invalido", "test_6"),
                   ("zb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
-                   "Regular", "Carmen Carrero", "123456789", "22",
+                   "Regular", "Carmen Carrero", "+34123456789", "22",
                    "El Id recibido no es un UUID", "test_7"),
                   ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
-                   "Single", "Carmen Carrero", "123456789", "22",
+                   "Single", "Carmen Carrero", "+34123456789", "22",
                    "Tipo de vacunacion solicitada incorrecta", "test_8"),
                   ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
-                   "Regular", "Carmen", "123456789", "22",
+                   "Regular", "Carmen", "+34123456789", "22",
                    "Cadena sin separacion entre nombre y apellidos", "test_9"),
                   ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
-                   "Regular", "Carmen Carrero Rodríguez Fernández Martínez", "123456789", "22",
+                   "Regular", "Carmen Carrero Rodríguez Fernández Martínez", "+34123456789", "22",
                    "Cadena de nombre y apellidos mayor de 30 caracteres", "test_10"),
                   ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
-                   "Regular", "Carmen Carrero", "12345678", "22",
-                   "Telefono con menos de 9 digitos", "test_11"),
+                   "Regular", "Carmen Carrero", "+3412345678", "22",
+                   "Formato del telefono invalido", "test_11"),
                   ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
-                   "Regular", "Carmen Carrero", "1234567899", "22",
-                   "Telefono con mas de 9 digitos", "test_12"),
+                   "Regular", "Carmen Carrero", "+341234567899", "22",
+                   "Formato del telefono invalido", "test_12"),
                   ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
                    "Regular", "Carmen Carrero", "teléfono", "22",
                    "Telefono no es un numero", "test_13"),
                   ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
-                   "Regular", "Carmen Carrero", "123456789", "5",
+                   "Regular", "Carmen Carrero", "+34123456789", "5",
                    "Edad menor de 6 años", "test_14"),
                   ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
-                   "Regular", "Carmen Carrero", "123456789", "126",
+                   "Regular", "Carmen Carrero", "+34123456789", "126",
                    "Edad mayor de 125 años", "test_15"),
                   ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
-                   "Regular", "Carmen Carrero", "123456789", "diez",
+                   "Regular", "Carmen Carrero", "+34123456789", "diez",
                    "La edad no es un numero", "test_16")]
 
 

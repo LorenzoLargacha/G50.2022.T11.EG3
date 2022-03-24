@@ -60,10 +60,16 @@ class VaccineManager:
         except ValueError as ex:
             raise VaccineManagementException("Telefono no es un numero") from ex
 
+        myregex = re.compile(r'^(\+)[0-9]{11}')
+        res = myregex.fullmatch(phone_number)
+        if not res:
+            raise VaccineManagementException("Formato del telefono invalido")
+        """
         if len(phone_number) > 9:
             raise VaccineManagementException("Telefono con mas de 9 digitos")
         if len(phone_number) < 9:
             raise VaccineManagementException("Telefono con menos de 9 digitos")
+        """
         return True
 
     @staticmethod
