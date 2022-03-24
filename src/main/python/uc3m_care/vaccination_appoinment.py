@@ -28,12 +28,12 @@ class VaccinationAppoinment():
                + ",vaccinationtiondate:" + self.__appoinment_date + "}"
 
     @property
-    def patient_id_appoinment(self):
+    def patient_id(self):
         """Property that represents the guid of the patient"""
         return self.__patient_id
 
-    @patient_id_appoinment.setter
-    def patient_id_appoinment(self, value):
+    @patient_id.setter
+    def patient_id(self, value):
         self.__patient_id = value
 
     @property
@@ -46,12 +46,12 @@ class VaccinationAppoinment():
         self.__patient_sys_id = value
 
     @property
-    def phone_number_appoinment(self):
+    def phone_number(self):
         """Property that represents the phone number of the patient"""
         return self.__phone_number
 
-    @phone_number_appoinment.setter
-    def phone_number_appoinment(self, value):
+    @phone_number.setter
+    def phone_number(self, value):
         self.__phone_number = value
 
     @property

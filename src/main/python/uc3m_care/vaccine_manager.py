@@ -9,13 +9,14 @@ from .vaccine_management_exception import VaccineManagementException
 
 
 class VaccineManager:
-    """Class for providing the methods for managing the vaccination process"""
+    """ Class for providing the methods for managing the vaccination process """
+
     def __init__(self):
         pass
 
     @staticmethod
     def validate_guid(guid):
-        """RETURN TRUE IF THE GUID v4 IS RIGHT, OR EXCEPTION IN OTHER CASE"""
+        """ RETURN TRUE IF THE GUID v4 IS RIGHT, OR EXCEPTION IN OTHER CASE """
         try:
             uuid.UUID(guid)
             myregex = re.compile(r'^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-'
@@ -30,14 +31,14 @@ class VaccineManager:
 
     @staticmethod
     def validate_registration_type(registration_type):
-        """Return True si el registration_type es correcto, en otro caso Excepcion"""
+        """ Return True si el registration_type es correcto, en otro caso Excepcion """
         if registration_type in ("Regular", "Family"):
             return True
         raise VaccineManagementException("Tipo de vacunacion solicitada incorrecta")
 
     @staticmethod
     def validate_name_surname(name):
-        """Return True si el name es correcto, en otro caso Excepcion"""
+        """ Return True si el name es correcto, en otro caso Excepcion """
         if len(name) > 30:
             raise VaccineManagementException("Cadena de nombre y apellidos mayor de 30 caracteres")
         # La funcion find encuentra el primer espacio que haya en la cadena,
@@ -50,7 +51,7 @@ class VaccineManager:
 
     @staticmethod
     def validate_phone_number(phone_number):
-        """Return True si el phone_number es correcto, en otro caso Excepcion"""
+        """ Return True si el phone_number es correcto, en otro caso Excepcion """
         # para comprobar si el telefono son solo digitos,
         # lo pasamos a numero entero
         # si no se puede convertir lanzamos una excepcion
@@ -67,7 +68,7 @@ class VaccineManager:
 
     @staticmethod
     def validate_age(age):
-        """Return True si age es correcto, en otro caso Excepcion"""
+        """ Return True si age es correcto, en otro caso Excepcion """
         # para comprobar si la edad son solo digitos,
         # lo pasamos a numero entero
         # si no se puede convertir lanzamoa una excepcion
@@ -82,54 +83,9 @@ class VaccineManager:
             raise VaccineManagementException("Edad mayor de 125 años")
         return True
 
-    @staticmethod
-    def validate_json_data(file_store, paciente):
-        """Metodo para comprobar si un paciente esta en el fichero Json"""
-        # Return True si paciente se encuentra en el fichero, False en otro caso
-        try:
-            # Intentamos abrir el fichero JSON
-            with open(file_store, "r", encoding="UTF-8", newline="") as file:
-                # Guardamos los datos del fichero en una lista
-                data_list = json.load(file)
-        except FileNotFoundError as ex:
-            # En caso de que el fichero no exista, lanzamos una excepcion
-            raise VaccineManagementException("Fichero no creado") from ex
-        except json.JSONDecodeError as ex:
-            # Si se produce un error al decodificar mostaramos una excepcion
-            raise VaccineManagementException(
-                "JSON decode error - formato JSON incorrecto") from ex
-
-        # Creamos una variable para guardar si se encuentra un paciente con esos datos
-        found = False
-
-        # Recorremos las entradas de fichero
-        for item in data_list:
-            # Si el patient_id se encuentra en el fichero
-            if item["_VaccinePatientRegister__patient_id"] == \
-                    paciente['patient_id']:
-                # Comprobamos el tipo de registro, el nombre, el numero de telefono y la edad
-                if (item["_VaccinePatientRegister__registration_type"] ==
-                    paciente['registration_type']) \
-                        and (item["_VaccinePatientRegister__full_name"] ==
-                             paciente['name']) \
-                        and (item["_VaccinePatientRegister__phone_number"] ==
-                             paciente['phone_number']) \
-                        and (item["_VaccinePatientRegister__age"] ==
-                             paciente['age']):
-                    found = True
-        return found
-
-    def request_vaccination_id(self, paciente):
-        """Creamos un nuevo paciente con los atributos pasdos como parametro,
-        y devolvemos el patient_system_id del paciente"""
-        # Utilizamos un diccionario para pasar los parametros
-        # para reducir el numero de argumentos (pylint)
-        # Obtenemos las variables del diccionario
-        patient_id = paciente['patient_id']
-        registration_type = paciente['registration_type']
-        name = paciente['name']
-        phone_number = paciente['phone_number']
-        age = paciente['age']
+    def request_vaccination_id(self, patient_id, registration_type, name, phone_number, age):
+        """ Creamos un nuevo paciente con los atributos pasdos como parametro,
+        y devolvemos el patient_system_id del paciente """
 
         # Buscamos la ruta en la que se almacena el fichero
         json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF1"
@@ -142,7 +98,8 @@ class VaccineManager:
                 and (self.validate_phone_number(phone_number)) \
                 and (self.validate_age(age)):
             # Creamos un objeto tipo paciente
-            my_register = VaccinePatientRegister(paciente)
+            my_register = VaccinePatientRegister(patient_id,
+                                                 name, registration_type, phone_number, age)
 
             try:
                 # Intentamos abrir el fichero JSON

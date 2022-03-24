@@ -6,15 +6,8 @@ from datetime import datetime
 
 class VaccinePatientRegister:
     """Class representing the register of the patient in the system"""
-    # def __init__(self, patient_id, full_name, registration_type, phone_number, age):
-    def __init__(self, paciente):
-        # Obtenemos las variables del diccionario
-        patient_id = paciente['patient_id']
-        registration_type = paciente['registration_type']
-        full_name = paciente['name']
-        phone_number = paciente['phone_number']
-        age = paciente['age']
 
+    def __init__(self, patient_id, full_name, registration_type, phone_number, age):
         # Creamos los atributos
         self.__patient_id = patient_id
         self.__full_name = full_name
