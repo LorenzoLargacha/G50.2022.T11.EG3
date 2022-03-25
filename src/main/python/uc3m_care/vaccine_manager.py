@@ -41,10 +41,15 @@ class VaccineManager:
         """ Return True si el name es correcto, en otro caso Excepcion """
         if len(name) > 30:
             raise VaccineManagementException("Cadena de nombre y apellidos mayor de 30 caracteres")
+
+        if len(name) < 1:
+            raise VaccineManagementException("Cadena de nombre vacia")
+
         # La funcion find encuentra el primer espacio que haya en la cadena,
         # si no hay ninguno devuelve un -1,
         # si lo encuentra al principio o al final
         # tambien sera incorrecto ya que debe estar entre medias
+
         if (name.find(" ") == -1) or (name.find(" ") == 0) or (name.find(" ") == len(name)-1):
             raise VaccineManagementException("Cadena sin separacion entre nombre y apellidos")
         return True
@@ -52,24 +57,12 @@ class VaccineManager:
     @staticmethod
     def validate_phone_number(phone_number):
         """ Return True si el phone_number es correcto, en otro caso Excepcion """
-        # para comprobar si el telefono son solo digitos,
-        # lo pasamos a numero entero
-        # si no se puede convertir lanzamos una excepcion
-        try:
-            int(phone_number)
-        except ValueError as ex:
-            raise VaccineManagementException("Telefono no es un numero") from ex
-
+        # Comprobamos que el numero de telefono sigue el formato +__ y otros 9 digitos
         myregex = re.compile(r'^(\+)[0-9]{11}')
         res = myregex.fullmatch(phone_number)
         if not res:
             raise VaccineManagementException("Formato del telefono invalido")
-        """
-        if len(phone_number) > 9:
-            raise VaccineManagementException("Telefono con mas de 9 digitos")
-        if len(phone_number) < 9:
-            raise VaccineManagementException("Telefono con menos de 9 digitos")
-        """
+
         return True
 
     @staticmethod

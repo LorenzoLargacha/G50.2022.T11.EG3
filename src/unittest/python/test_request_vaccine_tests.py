@@ -90,7 +90,7 @@ class MyTestCase(unittest.TestCase):
             # Mostramos el test que se esta ejecutando
             print(par7)
 
-    def test_17_validate_json_data_nok(self):
+    def test_22_validate_json_data_nok(self):
         """ Test no valido de la funcion validate_json_data,
         los datos no son válidos y no se guardan en el fichero """
 
@@ -136,9 +136,9 @@ class MyTestCase(unittest.TestCase):
         self.assertFalse(found)
 
         # Mostramos el test que se esta ejecutando
-        print("test_17")
+        print("test_22")
 
-    def test_18_validate_json_data_nok(self):
+    def test_23_validate_json_data_nok(self):
         """ Test no valido de la funcion validate_json_data,
         los datos son válidos y no se guardan en el fichero porque ya estan guardados """
         # Buscamos la ruta en la que se almacena el fichero
@@ -177,7 +177,7 @@ class MyTestCase(unittest.TestCase):
         self.assertTrue(found)
 
         # Mostramos el test que se esta ejecutando
-        print("test_18")
+        print("test_23")
 
     @staticmethod
     def validate_json_data(file_store, patient_id, registration_type, name, phone_number, age):
@@ -215,11 +215,17 @@ class MyTestCase(unittest.TestCase):
 
 # Parametros para los test valid request vaccination id
 param_list_ok = [("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
-                  "Regular", "Carmen Carrero", "+34123456789", "22",
-                  "3d314edde35bb1b7a0e84bdacf9f31ba", "test_1"),
+                  "Regular", "NomTreintacaracteres yunblanco", "+34123456789", "6",
+                  "0a9d6f313a6355f54caf4cd00a21f2d1", "test_1"),
                  ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
-                  "Family", "Carmen Carrero", "+34123456789", "22",
-                  "67e7b392d7098f4f666e18dff9e9add1", "test_2")]
+                  "Family", "Nombre Veintinueve Caracteres", "+34123456789", "125",
+                  "44f07ba85efec0a3429b8d732f3c6284", "test_2"),
+                 ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
+                  "Family", "C C", "+34123456789", "7",
+                  "61fabb7e13e3bb7008e9f247fc982417", "test_17"),
+                 ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
+                  "Family", "Carmen Carrero", "+34123456789", "124",
+                  "a1c63840bbf5cf066a2c09d05173595a", "test_19")]
 
 # Parametros para los test not valid request vaccination id
 param_list_nok = [("bb5dbd6f-d8b4-113f-8eb9-dd262cfc54e0",
@@ -237,33 +243,42 @@ param_list_nok = [("bb5dbd6f-d8b4-113f-8eb9-dd262cfc54e0",
                   ("zb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
                    "Regular", "Carmen Carrero", "+34123456789", "22",
                    "El Id recibido no es un UUID", "test_7"),
+                  ("zb5dbd6f-d8b4-413f-8eb9-dd262cfc54e01",
+                   "Family", "Carmen Carrero", "+34123456789", "22",
+                   "El Id recibido no es un UUID", "test_8"),
+                  ("zb5dbd6f-d8b4-413f-8eb9-dd262cfc54e",
+                   "Family", "Carmen Carrero", "+34123456789", "22",
+                   "El Id recibido no es un UUID", "test_9"),
                   ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
                    "Single", "Carmen Carrero", "+34123456789", "22",
-                   "Tipo de vacunacion solicitada incorrecta", "test_8"),
+                   "Tipo de vacunacion solicitada incorrecta", "test_10"),
                   ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
-                   "Regular", "Carmen", "+34123456789", "22",
-                   "Cadena sin separacion entre nombre y apellidos", "test_9"),
+                   "Regular", "C", "+34123456789", "22",
+                   "Cadena sin separacion entre nombre y apellidos", "test_11"),
                   ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
-                   "Regular", "Carmen Carrero Rodríguez Fernández Martínez", "+34123456789", "22",
-                   "Cadena de nombre y apellidos mayor de 30 caracteres", "test_10"),
+                   "Regular", "Nombre Con Treintayuncaracteres", "+34123456789", "22",
+                   "Cadena de nombre y apellidos mayor de 30 caracteres", "test_12"),
+                  ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
+                   "Regular", "", "+34123456789", "22",
+                   "Cadena de nombre vacia", "test_13"),
                   ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
                    "Regular", "Carmen Carrero", "+3412345678", "22",
-                   "Formato del telefono invalido", "test_11"),
+                   "Formato del telefono invalido", "test_14"),
                   ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
                    "Regular", "Carmen Carrero", "+341234567899", "22",
-                   "Formato del telefono invalido", "test_12"),
+                   "Formato del telefono invalido", "test_15"),
                   ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
                    "Regular", "Carmen Carrero", "teléfono", "22",
-                   "Telefono no es un numero", "test_13"),
+                   "Formato del telefono invalido", "test_16"),
                   ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
                    "Regular", "Carmen Carrero", "+34123456789", "5",
-                   "Edad menor de 6 años", "test_14"),
+                   "Edad menor de 6 años", "test_18"),
                   ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
                    "Regular", "Carmen Carrero", "+34123456789", "126",
-                   "Edad mayor de 125 años", "test_15"),
+                   "Edad mayor de 125 años", "test_20"),
                   ("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
                    "Regular", "Carmen Carrero", "+34123456789", "diez",
-                   "La edad no es un numero", "test_16")]
+                   "La edad no es un numero", "test_21")]
 
 
 if __name__ == '__main__':
