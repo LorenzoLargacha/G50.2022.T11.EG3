@@ -146,3 +146,7 @@ class VaccineManager:
 
         # Si el paciente no estaba en el fichero, lo devolvemos
         return my_register.patient_system_id
+
+    def get_vaccine_date(self, input_file):
+        """ Comentario """
+        pass

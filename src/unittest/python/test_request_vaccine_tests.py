@@ -9,7 +9,7 @@ from uc3m_care import VaccineManagementException
 
 
 class MyTestCase(unittest.TestCase):
-    """ Test Unitest """
+    """ Test Unitest Request Vaccination Id """
 
     def test_parametrized_valid_request_vaccination_id(self):
         """ Test 1 y 2. Tests validos de la funcion request_vaccination_id (parametrizados) """

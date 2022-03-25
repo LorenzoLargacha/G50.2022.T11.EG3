@@ -2,9 +2,9 @@
   {
     "_VaccinePatientRegister__patient_id": "bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
     "_VaccinePatientRegister__full_name": "Carmen Carrero",
-    "_VaccinePatientRegister__registration_type": "Family",
+    "_VaccinePatientRegister__registration_type": "Regular",
     "_VaccinePatientRegister__phone_number": "+34123456789",
-    "_VaccinePatientRegister__age": "124",
+    "_VaccinePatientRegister__age": "22",
     "_VaccinePatientRegister__time_stamp": 1646300783.846215
   }
 ]
