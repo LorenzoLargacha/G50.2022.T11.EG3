@@ -21,7 +21,7 @@ class VaccinePatientRegister:
         self.__time_stamp = 1646300783.846215
 
         # RF2
-        # self.__patient_sys_id = self.patient_system_id
+        self.__patient_sys_id = self.patient_system_id
 
 
     def __str__(self):

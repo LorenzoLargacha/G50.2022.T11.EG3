@@ -13,7 +13,39 @@ class MyTestCase(unittest.TestCase):
     """ Test Unitest Get Vaccine Date """
 
     def test_get_vaccine_date_ok(self):
-        """ Test 1 y 2. Tests validos de la funcion request_vaccination_id (parametrizados) """
+        """ Tests ok """
+        # Buscamos la ruta en la que se almacena el fichero store_patient
+        json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF1"
+        file_store_patient = json_files_path + "/store_patient.json"
+
+        # Buscamos la ruta en la que se almacena el fichero de test
+        json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF2"
+        input_file = json_files_path + "/test_ok.json"
+
+        # Buscamos la ruta en la que se almacena el fichero store_date
+        json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF2"
+        file_store_date = json_files_path + "/store_date.json"
+
+        # Si el fichero ya existe, lo borramos para no tener datos precargados
+        if os.path.isfile(file_store_patient):
+            os.remove(file_store_patient)
+        if os.path.isfile(file_store_date):
+            os.remove(file_store_date)
+
+        # Seleccionamos la clase sobre la que se ejecuta el test
+        my_request = VaccineManager()
+
+        # Llamamos al metodo request_vaccination_id para almacenar el paciente
+        patient_system_id = my_request.request_vaccination_id("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0", "Regular",
+                                                              "NomTreintacaracteres yunblanco", "+34123456789", "6")
+
+        # Llamamos al metodo get_vaccine_date
+        value = my_request.get_vaccine_date(input_file)
+
+        # Comprobamos si el resultado es el esperado
+        self.assertEqual("prueba", value)
+
+        # Comprobamos que se guarda la cita en store_date
 
 
 

@@ -12,7 +12,7 @@ class MyTestCase(unittest.TestCase):
     """ Test Unitest Request Vaccination Id """
 
     def test_parametrized_valid_request_vaccination_id(self):
-        """ Test 1 y 2. Tests validos de la funcion request_vaccination_id (parametrizados) """
+        """ Test 1, 2, 17 y 19. Tests validos de la funcion request_vaccination_id (parametrizados) """
         # Buscamos la ruta en la que se almacena el fichero
         json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF1"
         file_store = json_files_path + "/store_patient.json"

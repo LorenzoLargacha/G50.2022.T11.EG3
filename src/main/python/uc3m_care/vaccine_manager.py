@@ -5,6 +5,7 @@ import uuid
 from pathlib import Path
 
 from .vaccine_patient_register import VaccinePatientRegister
+from .vaccination_appoinment import VaccinationAppoinment
 from .vaccine_management_exception import VaccineManagementException
 
 
@@ -83,7 +84,7 @@ class VaccineManager:
         return True
 
     def request_vaccination_id(self, patient_id, registration_type, name, phone_number, age):
-        """ Creamos un nuevo paciente con los atributos pasdos como parametro,
+        """ Creamos un nuevo paciente con los atributos pasados como parametro,
         y devolvemos el patient_system_id del paciente """
 
         # Buscamos la ruta en la que se almacena el fichero
@@ -148,5 +149,74 @@ class VaccineManager:
         return my_register.patient_system_id
 
     def get_vaccine_date(self, input_file):
-        """ Comentario """
-        pass
+        """ Leemos el fichero de entrada, validamos los campos, generamos una cita y la almacenamos """
+
+        # Intentamos abrir el fichero de entrada y guardamos sus datos
+        try:
+            # Intentamos abrir el fichero JSON
+            with open(input_file, "r", encoding="UTF-8", newline="") as file:
+                # Guardamos los datos del fichero en una lista
+                data_list_input = json.load(file)
+        except FileNotFoundError as ex:
+            # En caso de que el fichero no exista, lanzamos una excepcion
+            raise VaccineManagementException("Fichero input_file no creado") from ex
+        except json.JSONDecodeError as ex:
+            # Si los datos no siguen el formato JSON
+            raise VaccineManagementException(
+                "JSON decode error - formato JSON incorrecto") from ex
+
+        # Recorremos las entradas de fichero
+        for item in data_list_input:
+            # Si el patient_system_id se encuentra en el fichero lo guardamos
+            if item["PatientSystemID"] and item["ContactPhoneNumber"]:
+                patient_system_id = item["PatientSystemID"]
+                phone_number = item["ContactPhoneNumber"]
+            # Si las etiquetas no son correctas lanzamos una excepcion
+            else:
+                pass
+
+        # Comprobamos si los atributos son validos
+
+
+        # Buscamos la ruta en la que se almacena el fichero store_patient
+        json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF1"
+        file_store_patient = json_files_path + "/store_patient.json"
+
+        # Intentamos abrir el fichero store_patient y guardamos sus datos
+        try:
+            # Intentamos abrir el fichero JSON
+            with open(file_store_patient, "r", encoding="UTF-8", newline="") as file:
+                # Guardamos los datos del fichero en una lista
+                data_list_patient = json.load(file)
+        except FileNotFoundError as ex:
+            # En caso de que el fichero no exista, lanzamos una excepcion
+            raise VaccineManagementException("Fichero store_patient no creado") from ex
+        except json.JSONDecodeError as ex:
+            # Si los datos no siguen el formato JSON
+            raise VaccineManagementException(
+                "JSON decode error - formato JSON incorrecto") from ex
+
+        # Creamos una variable para guardar si se encuentra un paciente con esos datos
+        found = False
+
+        # patient_id = VaccinePatientRegister.patient_system_id
+        """
+        # Recorremos las entradas de fichero
+        for item in data_list_patient:
+            # Si el patient_system_id se encuentra en el fichero
+            if item["_VaccinePatientRegister__patient_id"] == \
+                        patient_id:
+                # Comprobamos el tipo de registro, el nombre, el numero de telefono y la edad
+                if (item["_VaccinePatientRegister__registration_type"] == registration_type) \
+                        and (item["_VaccinePatientRegister__full_name"] == name) \
+                        and (item["_VaccinePatientRegister__phone_number"] == phone_number) \
+                        and (item["_VaccinePatientRegister__age"] == age):
+                    found = True"""
+
+        if found is True:
+            pass
+            # Creamos un objeto tipo cita
+            # my_register = VaccinationAppoinment(guid, patient_sys_id, patient_phone_number, days)
+
+
+        return "prueba"
