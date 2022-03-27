@@ -8,3 +8,5 @@ pylint==2.12.2
 toml==0.10.2
 typing-extensions==4.0.1
 wrapt==1.13.3
+
+freezegun~=1.2.0

@@ -50,7 +50,6 @@ class VaccineManager:
         # si no hay ninguno devuelve un -1,
         # si lo encuentra al principio o al final
         # tambien sera incorrecto ya que debe estar entre medias
-
         if (name.find(" ") == -1) or (name.find(" ") == 0) or (name.find(" ") == len(name)-1):
             raise VaccineManagementException("Cadena sin separacion entre nombre y apellidos")
         return True
@@ -63,7 +62,6 @@ class VaccineManager:
         res = myregex.fullmatch(phone_number)
         if not res:
             raise VaccineManagementException("Formato del telefono invalido")
-
         return True
 
     @staticmethod
@@ -83,11 +81,21 @@ class VaccineManager:
             raise VaccineManagementException("Edad mayor de 125 años")
         return True
 
+    @staticmethod
+    def validate_patient_system_id(patient_system_id):
+        """ Return True si el patient_system_id es correcto, en otro caso Excepcion """
+        # Comprobamos que el patient_system_id es una cadena hexadecimal de 32 caracteres
+        myregex = re.compile(r'^[0-9A-F]{32}$', re.IGNORECASE)
+        res = myregex.fullmatch(patient_system_id)
+        if not res:
+            raise VaccineManagementException("Formato del patient_system_id invalido")
+        return True
+
     def request_vaccination_id(self, patient_id, registration_type, name, phone_number, age):
         """ Creamos un nuevo paciente con los atributos pasados como parametro,
         y devolvemos el patient_system_id del paciente """
 
-        # Buscamos la ruta en la que se almacena el fichero
+        # Buscamos la ruta en la que se almacena el fichero store_patient
         json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF1"
         file_store = json_files_path + "/store_patient.json"
 
@@ -97,7 +105,7 @@ class VaccineManager:
                 and (self.validate_name_surname(name))\
                 and (self.validate_phone_number(phone_number)) \
                 and (self.validate_age(age)):
-            # Creamos un objeto tipo paciente
+            # Creamos un objeto tipo paciente (VaccinePatientRegister)
             my_register = VaccinePatientRegister(patient_id,
                                                  name, registration_type, phone_number, age)
 
@@ -126,7 +134,7 @@ class VaccineManager:
                             and (item["_VaccinePatientRegister__full_name"] == name):
                         found = True
 
-            # Si ese paciente no se ecuentra en el fichero lo guardamos
+            # Si ese paciente no se encuentra en el fichero lo guardamos
             if found is False:
                 # Almacenamos sus datos en la lista
                 data_list.append(my_register.__dict__)
@@ -141,15 +149,15 @@ class VaccineManager:
                     raise VaccineManagementException(
                         "JSON file not found error - fichero o ruta incorrectos") from ex
 
-            # Si ese paciente ya se ecuentra en el fichero lanzamos una excepcion
+            # Si ese paciente ya se encuentra en el fichero lanzamos una excepcion
             if found is True:
                 raise VaccineManagementException("Paciente ya registrado")
 
-        # Si el paciente no estaba en el fichero, lo devolvemos
+        # Si el paciente se crea correctamente, devolvemos su patient_system_id
         return my_register.patient_system_id
 
     def get_vaccine_date(self, input_file):
-        """ Leemos el fichero de entrada, validamos los campos, generamos una cita y la almacenamos """
+        """ Leemos el fichero de entrada, comprobamos los campos, generamos una cita y la almacenamos """
 
         # Intentamos abrir el fichero de entrada y guardamos sus datos
         try:
@@ -165,18 +173,26 @@ class VaccineManager:
             raise VaccineManagementException(
                 "JSON decode error - formato JSON incorrecto") from ex
 
-        # Recorremos las entradas de fichero
+        # Comprobamos la estructura del fichero JSON
+        # Recorremos las entradas de fichero para comprobar etiquetas y valores
         for item in data_list_input:
-            # Si el patient_system_id se encuentra en el fichero lo guardamos
-            if item["PatientSystemID"] and item["ContactPhoneNumber"]:
-                patient_system_id = item["PatientSystemID"]
-                phone_number = item["ContactPhoneNumber"]
-            # Si las etiquetas no son correctas lanzamos una excepcion
+            # Si el fichero JSON solo tiene un item, y el item solo tiene dos etiquetas,
+            # y las etiquetas son correctas, entonces comprobamos los valores
+            # ------ comprobar que no haya dos etiquetas iguales? o ya lo hace JSONDecodeError ? hay que hacer otro test? comprobar que no haya otras etiquetas? otro test?
+            # ------ debe funcionar para un fichero con muchas solicitudes? no dice nada
+            # ------ un mismo paciente puede pedir varias citas? no dice nada
+            if len(data_list_input) == 1 and len(item) == 2 \
+                    and "PatientSystemID" in item and "ContactPhoneNumber" in item:
+                # Comprobamos si los valores son válidos y los guardamos
+                if (self.validate_phone_number(item["ContactPhoneNumber"])) \
+                        and (self.validate_patient_system_id(item["PatientSystemID"])):
+                    patient_system_id = item["PatientSystemID"]
+                    phone_number = item["ContactPhoneNumber"]
+
+            # Si la estructura NO es correcta lanzamos una excepcion
+            # (si las etiquetas no son correctas o si la solicitud no se encuentra en el fichero)
             else:
-                pass
-
-        # Comprobamos si los atributos son validos
-
+                raise VaccineManagementException("Estructura JSON incorrecta")
 
         # Buscamos la ruta en la que se almacena el fichero store_patient
         json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF1"
@@ -199,24 +215,41 @@ class VaccineManager:
         # Creamos una variable para guardar si se encuentra un paciente con esos datos
         found = False
 
-        # patient_id = VaccinePatientRegister.patient_system_id
-        """
         # Recorremos las entradas de fichero
         for item in data_list_patient:
-            # Si el patient_system_id se encuentra en el fichero
-            if item["_VaccinePatientRegister__patient_id"] == \
-                        patient_id:
-                # Comprobamos el tipo de registro, el nombre, el numero de telefono y la edad
-                if (item["_VaccinePatientRegister__registration_type"] == registration_type) \
-                        and (item["_VaccinePatientRegister__full_name"] == name) \
-                        and (item["_VaccinePatientRegister__phone_number"] == phone_number) \
-                        and (item["_VaccinePatientRegister__age"] == age):
-                    found = True"""
+            # Si el patient_system_id se encuentra en el fichero (coincide con los datos)
+            if item["_VaccinePatientRegister__patient_sys_id"] == patient_system_id:
+                # Como en metodo request_vaccination_id no permite que se guarden
+                # dos pacientes iguales, sabemos que el patient_system_id es unico
+                found = True
+                # Obtenemos el guid del paciente
+                patient_id = item["_VaccinePatientRegister__patient_id"]
 
         if found is True:
-            pass
-            # Creamos un objeto tipo cita
-            # my_register = VaccinationAppoinment(guid, patient_sys_id, patient_phone_number, days)
+            # Creamos un objeto tipo cita (VaccinationAppoinment)
+            days = 10
+            my_register = VaccinationAppoinment(patient_id, patient_system_id, phone_number, days)
 
+            # Guardamos la cita en el fichero store_date
+            # Buscamos la ruta en la que se almacena el fichero store_date
+            json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF2"
+            file_store_date = json_files_path + "/store_date.json"
 
-        return "prueba"
+            try:
+                # Intentamos abrir el fichero JSON para escribir
+                with open(file_store_date, "w", encoding="UTF-8", newline="") as file:
+                    # Almacenamos sus datos en una lista
+                    data_list = [my_register.__dict__]
+                    # Serializamos el objeto y guardamos los datos en el fichero
+                    json.dump(data_list, file, indent=2)
+            except FileNotFoundError as ex:
+                # Si no existe el fichero lanzamos una excepcion
+                raise VaccineManagementException(
+                    "JSON file not found error - fichero o ruta incorrectos") from ex
+
+        # Si el paciente no está registrado, lanzamos una excepcion
+        if found is False:
+            raise VaccineManagementException("Paciente no registrado")
+
+        # Si la cita se crea correctamente, devolvemos su vaccination_signature
+        return my_register.vaccination_signature

@@ -20,7 +20,7 @@ class VaccinePatientRegister:
         # RF1 -> evitamos que cambie la hora (borrar despues, solo sirve para los tests)
         self.__time_stamp = 1646300783.846215
 
-        # RF2
+        # RF2 -> añadimos el atributo patient_system_id para que se guarde en el fichero
         self.__patient_sys_id = self.patient_system_id
 
 

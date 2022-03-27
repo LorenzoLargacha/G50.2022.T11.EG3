@@ -3,7 +3,7 @@ from datetime import datetime
 import hashlib
 
 
-class VaccinationAppoinment():
+class VaccinationAppoinment:
     """Class representing an appoinment  for the vaccination of a patient"""
 
     def __init__(self, guid, patient_sys_id, patient_phone_number, days):

@@ -3,15 +3,17 @@ import os
 import json
 from pathlib import Path
 import unittest
+from freezegun import freeze_time
 
 from uc3m_care import VaccineManager
-from uc3m_care import VaccinationAppoinment
+# from uc3m_care import VaccinationAppoinment
 from uc3m_care import VaccineManagementException
 
 
 class MyTestCase(unittest.TestCase):
     """ Test Unitest Get Vaccine Date """
 
+    @freeze_time("2022-03-08")
     def test_get_vaccine_date_ok(self):
         """ Tests ok """
         # Buscamos la ruta en la que se almacena el fichero store_patient
@@ -43,10 +45,9 @@ class MyTestCase(unittest.TestCase):
         value = my_request.get_vaccine_date(input_file)
 
         # Comprobamos si el resultado es el esperado
-        self.assertEqual("prueba", value)
+        self.assertEqual("56f606edfa8914e43ab92ea40e0ccdd7d888d381c4c175cf5172f9b8e4de5e3e", value)
 
         # Comprobamos que se guarda la cita en store_date
-
 
 
 if __name__ == '__main__':
