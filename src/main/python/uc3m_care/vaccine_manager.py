@@ -105,6 +105,7 @@ class VaccineManager:
                 and (self.validate_name_surname(name))\
                 and (self.validate_phone_number(phone_number)) \
                 and (self.validate_age(age)):
+
             # Creamos un objeto tipo paciente (VaccinePatientRegister)
             my_register = VaccinePatientRegister(patient_id,
                                                  name, registration_type, phone_number, age)
@@ -157,7 +158,8 @@ class VaccineManager:
         return my_register.patient_system_id
 
     def get_vaccine_date(self, input_file):
-        """ Leemos el fichero de entrada, comprobamos los campos, generamos una cita y la almacenamos """
+        """ Leemos el fichero de entrada, comprobamos los campos,
+        generamos una cita y la almacenamos """
 
         # Intentamos abrir el fichero de entrada y guardamos sus datos
         try:
@@ -198,7 +200,7 @@ class VaccineManager:
         json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF1"
         file_store_patient = json_files_path + "/store_patient.json"
 
-        # Intentamos abrir el fichero store_patient y guardamos sus datos
+        # Intentamos abrir el fichero store_patient y guardar sus datos
         try:
             # Intentamos abrir el fichero JSON
             with open(file_store_patient, "r", encoding="UTF-8", newline="") as file:
@@ -232,7 +234,8 @@ class VaccineManager:
 
             # Guardamos la cita en el fichero store_date
             # Buscamos la ruta en la que se almacena el fichero store_date
-            json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF2"
+            json_files_path = str(Path.home()) \
+                              + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF2"
             file_store_date = json_files_path + "/store_date.json"
 
             try:

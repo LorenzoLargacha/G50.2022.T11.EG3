@@ -3,6 +3,7 @@ import os
 import json
 from pathlib import Path
 import unittest
+from freezegun import freeze_time
 
 from uc3m_care import VaccineManager
 from uc3m_care import VaccineManagementException
@@ -11,8 +12,9 @@ from uc3m_care import VaccineManagementException
 class MyTestCase(unittest.TestCase):
     """ Test Unitest Request Vaccination Id """
 
+    @freeze_time("2022-03-03 09:46:23.846215")
     def test_parametrized_valid_request_vaccination_id(self):
-        """ Test 1, 2, 17 y 19. Tests validos de la funcion request_vaccination_id (parametrizados) """
+        """ Test 1,2,17,19. Tests validos de la funcion request_vaccination_id (parametrizados) """
         # Buscamos la ruta en la que se almacena el fichero
         json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF1"
         file_store = json_files_path + "/store_patient.json"
