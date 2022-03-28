@@ -177,6 +177,9 @@ class VaccineManager:
 
         # Comprobamos la estructura del fichero JSON
         # Recorremos las entradas de fichero para comprobar etiquetas y valores
+        if len(data_list_input) == 0:
+                raise VaccineManagementException("Estructura JSON incorrecta")
+
         for item in data_list_input:
             # Si el fichero JSON solo tiene un item, y el item solo tiene dos etiquetas,
             # y las etiquetas son correctas, entonces comprobamos los valores
@@ -192,7 +195,7 @@ class VaccineManager:
                     phone_number = item["ContactPhoneNumber"]
 
             # Si la estructura NO es correcta lanzamos una excepcion
-            # (si las etiquetas no son correctas o si la solicitud no se encuentra en el fichero)
+            # (si las etiquetas no son correctas o si la solicitud no se encuentra en el fichero
             else:
                 raise VaccineManagementException("Estructura JSON incorrecta")
 
