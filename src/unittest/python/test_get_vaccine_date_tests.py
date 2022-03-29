@@ -128,32 +128,31 @@ class MyTestCase(unittest.TestCase):
 
         # Cargamos los parametros de la lista
         for par1, par2, par3 in param_list_nok:
-
-            # Buscamos la ruta en la que se almacena el fichero de test
-            json_files_path = str(Path.home())+"/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF2"
-            input_file = json_files_path + par1
-
-            # Generamos un hash del contenido del fichero antes
-            with open(file_store_date, "r", encoding="UTF-8", newline="") as file_org:
-                hash_original = hashlib.md5(file_org.__str__().encode()).hexdigest()
-
-            # Llamamos al metodo get_vaccine_date
             with self.subTest():
+                # Buscamos la ruta en la que se almacena el fichero de test
+                json_files_path = str(Path.home())+"/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF2"
+                input_file = json_files_path + par1
+
+                # Generamos un hash del contenido del fichero antes
+                with open(file_store_date, "r", encoding="UTF-8", newline="") as file_org:
+                    hash_original = hashlib.md5(file_org.__str__().encode()).hexdigest()
+
+                # Llamamos al metodo get_vaccine_date
                 with self.assertRaises(VaccineManagementException) as vme:
                     my_request.get_vaccine_date(input_file)
 
                 # Confirmamos que se lanza la excepcion esperada
                 self.assertEqual(vme.exception.message, par2)
 
-            # Generamos un hash del contenido del fichero después
-            with open(file_store_date, "r", encoding="UTF-8", newline="") as file_new:
-                hash_new = hashlib.md5(file_new.__str__().encode()).hexdigest()
+                # Generamos un hash del contenido del fichero después
+                with open(file_store_date, "r", encoding="UTF-8", newline="") as file_new:
+                    hash_new = hashlib.md5(file_new.__str__().encode()).hexdigest()
 
-            # Comprobamos que el contenido no cambia
-            self.assertEqual(hash_original, hash_new)
+                # Comprobamos que el contenido no cambia
+                self.assertEqual(hash_original, hash_new)
 
-            # Mostramos el test que se esta ejecutando
-            print(par3)
+                # Mostramos el test que se esta ejecutando
+                print(par3)
 
 
 # Parametros para los test not valid request vaccination id

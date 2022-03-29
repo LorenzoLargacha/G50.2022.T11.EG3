@@ -24,32 +24,32 @@ class MyTestCase(unittest.TestCase):
 
         # Cargamos los parametros de la lista
         for par1, par2, par3, par4, par5, par6, par7 in param_list_ok:
+            with self.subTest():
+                # Si el fichero ya existe, lo borramos para no tener datos precargados
+                if os.path.isfile(file_store):
+                    os.remove(file_store)
 
-            # Si el fichero ya existe, lo borramos para no tener datos precargados
-            if os.path.isfile(file_store):
-                os.remove(file_store)
+                # Guardamos los atributos en las variables correspondientes
+                patient_id = par1
+                registration_type = par2
+                name = par3
+                phone_number = par4
+                age = par5
 
-            # Guardamos los atributos en las variables correspondientes
-            patient_id = par1
-            registration_type = par2
-            name = par3
-            phone_number = par4
-            age = par5
+                # Llamamos al metodo request_vaccination_id
+                value = my_request.request_vaccination_id(patient_id,
+                                                          registration_type, name, phone_number, age)
+                # Comprobamos si el resultado es el esperado
+                self.assertEqual(par6, value)
 
-            # Llamamos al metodo request_vaccination_id
-            value = my_request.request_vaccination_id(patient_id,
-                                                      registration_type, name, phone_number, age)
-            # Comprobamos si el resultado es el esperado
-            self.assertEqual(par6, value)
+                # Llamamos al metodo validate_json_data
+                found = self.validate_json_data(file_store, patient_id,
+                                                registration_type, name, phone_number, age)
+                # Comprobamos si el resultado es el esperado
+                self.assertTrue(found)
 
-            # Llamamos al metodo validate_json_data
-            found = self.validate_json_data(file_store, patient_id,
-                                            registration_type, name, phone_number, age)
-            # Comprobamos si el resultado es el esperado
-            self.assertTrue(found)
-
-            # Mostramos el test que se esta ejecutando
-            print(par7)
+                # Mostramos el test que se esta ejecutando
+                print(par7)
 
     def test_parametrized_not_valid_request_vaccination_id(self):
         """ Test 3-16. Tests no validos de la funcion request_vaccination_id (parametrizados) """
@@ -66,31 +66,30 @@ class MyTestCase(unittest.TestCase):
 
         # Cargamos los parametros de la lista
         for par1, par2, par3, par4, par5, par6, par7 in param_list_nok:
-
-            # Guardamos los atributos en las variables correspondientes
-            patient_id = par1
-            registration_type = par2
-            name = par3
-            phone_number = par4
-            age = par5
-
-            # Llamamos al metodo request_vaccination_id
             with self.subTest():
+                # Guardamos los atributos en las variables correspondientes
+                patient_id = par1
+                registration_type = par2
+                name = par3
+                phone_number = par4
+                age = par5
+
+                # Llamamos al metodo request_vaccination_id
                 with self.assertRaises(VaccineManagementException) as vme:
                     my_request.request_vaccination_id(patient_id,
                                                       registration_type, name, phone_number, age)
                 # Confirmamos que se lanza la excepcion esperada
                 self.assertEqual(vme.exception.message, par6)
 
-            # Llamamos al metodo validate_json_data
-            with self.assertRaises(VaccineManagementException) as vme:
-                self.validate_json_data(file_store, patient_id,
-                                        registration_type, name, phone_number, age)
-            # Comprobamos si el resultado es el esperado
-            self.assertEqual("Fichero no creado", vme.exception.message)
+                # Llamamos al metodo validate_json_data
+                with self.assertRaises(VaccineManagementException) as vme:
+                    self.validate_json_data(file_store, patient_id,
+                                            registration_type, name, phone_number, age)
+                # Comprobamos si el resultado es el esperado
+                self.assertEqual("Fichero no creado", vme.exception.message)
 
-            # Mostramos el test que se esta ejecutando
-            print(par7)
+                # Mostramos el test que se esta ejecutando
+                print(par7)
 
     def test_22_validate_json_data_nok(self):
         """ Test no valido de la funcion validate_json_data,
