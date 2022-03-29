@@ -170,7 +170,7 @@ class VaccineManager:
 
     def get_vaccine_date(self, input_file):
         """ Leemos el fichero de entrada, comprobamos los campos,
-        generamos una cita y la almacenamos """
+        generamos una cita y la almacenamos en un fichero """
 
         # Intentamos abrir el fichero de entrada y guardamos sus datos
         try:
@@ -287,14 +287,14 @@ class VaccineManager:
         return my_register.vaccination_signature
 
     def vaccine_patient(self, date_signature):
-        """ Comprobamos la clave de entrada,  """
+        """ Comprobamos la clave de entrada, buscamos si la cita esta registrada,
+        comprobamos que la fecha es para hoy y guardamos los datos de vacunacion en un fichero """
 
         # Comprobamos que la firma SHA256 sigue el formato esperado
         self.validate_date_signature(date_signature)
 
         # Buscamos la ruta en la que se almacena el fichero store_date
-        json_files_path = str(Path.home()) \
-                          + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF2"
+        json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF2"
         file_store_date = json_files_path + "/store_date.json"
 
         # Intentamos abrir el fichero store_date y guardar sus datos
@@ -315,7 +315,7 @@ class VaccineManager:
         found = False
 
         # Recorremos las entradas de fichero
-        for item in date_signature:
+        for item in data_list_date:
             # Si el date_signature se encuentra en el fichero (cita registrada)
             if item["_VaccinationAppoinment__date_signature"] == date_signature:
                 found = True
