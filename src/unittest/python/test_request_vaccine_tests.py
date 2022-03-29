@@ -37,8 +37,8 @@ class MyTestCase(unittest.TestCase):
                 age = par5
 
                 # Llamamos al metodo request_vaccination_id
-                value = my_request.request_vaccination_id(patient_id,
-                                                          registration_type, name, phone_number, age)
+                value = my_request.request_vaccination_id(patient_id, registration_type,
+                                                          name, phone_number, age)
                 # Comprobamos si el resultado es el esperado
                 self.assertEqual(par6, value)
 

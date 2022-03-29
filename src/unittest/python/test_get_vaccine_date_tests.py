@@ -130,7 +130,8 @@ class MyTestCase(unittest.TestCase):
         for par1, par2, par3 in param_list_nok:
             with self.subTest():
                 # Buscamos la ruta en la que se almacena el fichero de test
-                json_files_path = str(Path.home())+"/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF2"
+                json_files_path = str(Path.home()) \
+                                  + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF2"
                 input_file = json_files_path + par1
 
                 # Generamos un hash del contenido del fichero antes
@@ -157,7 +158,7 @@ class MyTestCase(unittest.TestCase):
 
 # Parametros para los test not valid request vaccination id
 param_list_nok = [("/test_fichero_vacio.json",
-                   "Estructura JSON incorrecta", "test_2"),
+                   "La solicitud no se encontro en el archivo de solicitudes JSON", "test_2"),
                   ("/test_doble_contenido.json",
                    "JSON decode error - formato JSON incorrecto", "test_3"),
                   ("/test_no_llave_ini.json",
@@ -289,7 +290,11 @@ param_list_nok = [("/test_fichero_vacio.json",
                   ("/test_doble_comillas8.json",
                    "JSON decode error - formato JSON incorrecto", "test_67"),
                   ("/test_modif_comillas8.json",
-                   "JSON decode error - formato JSON incorrecto", "test_68")]
+                   "JSON decode error - formato JSON incorrecto", "test_68"),
+                  ("/test_campo3.json",
+                   "Estructura JSON incorrecta", "test_69"),
+                  ("/test_nok.json",
+                   "Fichero input_file no creado", "test_70")]
 
 
 if __name__ == '__main__':

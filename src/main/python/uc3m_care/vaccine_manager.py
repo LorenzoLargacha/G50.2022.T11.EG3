@@ -125,7 +125,7 @@ class VaccineManager:
 
             # Creamos una variable para guardar si se encuentra un paciente con esos datos
             found = False
-            # Recorremos las entradas de fichero
+            # Recorremos las entradas del fichero
             for item in data_list:
                 # Si el patient_id se encuentra en el fichero
                 if item["_VaccinePatientRegister__patient_id"] == patient_id:
@@ -176,14 +176,15 @@ class VaccineManager:
                 "JSON decode error - formato JSON incorrecto") from ex
 
         # Comprobamos la estructura del fichero JSON
-        # Recorremos las entradas de fichero para comprobar etiquetas y valores
+        # Si la solicitud no se encuentra en el fichero lanzamos una excepcion
         if len(data_list_input) == 0:
-                raise VaccineManagementException("Estructura JSON incorrecta")
+            raise VaccineManagementException("La solicitud no se encontro en el archivo de solicitudes JSON")
 
+        # Recorremos las entradas del fichero para comprobar etiquetas y valores
         for item in data_list_input:
             # Si el fichero JSON solo tiene un item, y el item solo tiene dos etiquetas,
             # y las etiquetas son correctas, entonces comprobamos los valores
-            # ------ comprobar que no haya dos etiquetas iguales? o ya lo hace JSONDecodeError ? hay que hacer otro test? comprobar que no haya otras etiquetas? otro test?
+            # ------ comprobar que no haya dos etiquetas iguales? o ya lo hace JSONDecodeError ? hay que hacer otro test?
             # ------ debe funcionar para un fichero con muchas solicitudes? no dice nada
             # ------ un mismo paciente puede pedir varias citas? no dice nada
             if len(data_list_input) == 1 and len(item) == 2 \
@@ -195,7 +196,7 @@ class VaccineManager:
                     phone_number = item["ContactPhoneNumber"]
 
             # Si la estructura NO es correcta lanzamos una excepcion
-            # (si las etiquetas no son correctas o si la solicitud no se encuentra en el fichero
+            # (si las etiquetas no son correctas)
             else:
                 raise VaccineManagementException("Estructura JSON incorrecta")
 
