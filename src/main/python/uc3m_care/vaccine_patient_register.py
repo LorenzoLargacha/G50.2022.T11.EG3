@@ -26,7 +26,7 @@ class VaccinePatientRegister:
         # dt_object = datetime.fromtimestamp(1646300783.846215)
         # print(dt_object)
 
-        # RF2 -> añadimos el atributo patient_system_id para que se guarde en el fichero
+        # RF2 -> añadimos el atributo patient_system_id para que se guarde en store_patient
         self.__patient_sys_id = self.patient_system_id
 
 

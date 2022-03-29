@@ -17,9 +17,12 @@ class VaccinationAppoinment:
         if days == 0:
             self.__appoinment_date = 0
         else:
-            # timestamp is represneted in seconds.microseconds
-            # age must be expressed in senconds to be added to the timestap
+            # timestamp is represented in seconds.microseconds
+            # days must be expressed in seconds to be added to the timestap
             self.__appoinment_date = self.__issued_at + (days * 24 * 60 * 60)
+
+        # RF3 -> añadimos el atributo date_signature para que se guarde en el fichero store_date
+        self.__date_signature = self.vaccination_signature
 
     def __signature_string(self):
         """Composes the string to be used for generating the key for the date"""

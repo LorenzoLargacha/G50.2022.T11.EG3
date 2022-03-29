@@ -2,6 +2,7 @@
 import json
 import re
 import uuid
+from datetime import datetime
 from pathlib import Path
 
 from .vaccine_patient_register import VaccinePatientRegister
@@ -91,6 +92,16 @@ class VaccineManager:
             raise VaccineManagementException("Formato del patient_system_id invalido")
         return True
 
+    @staticmethod
+    def validate_date_signature(date_signature):
+        """ Return True si el date_signature es correcto, en otro caso Excepcion """
+        # Comprobamos que el date_signature es una cadena hexadecimal de 64 caracteres
+        myregex = re.compile(r'^[0-9A-F]{64}$', re.IGNORECASE)
+        res = myregex.fullmatch(date_signature)
+        if not res:
+            raise VaccineManagementException("Formato del date_signature invalido")
+        return True
+
     def request_vaccination_id(self, patient_id, registration_type, name, phone_number, age):
         """ Creamos un nuevo paciente con los atributos pasados como parametro,
         y devolvemos el patient_system_id del paciente """
@@ -111,7 +122,7 @@ class VaccineManager:
                                                  name, registration_type, phone_number, age)
 
             try:
-                # Intentamos abrir el fichero JSON
+                # Intentamos abrir el fichero JSON para leer
                 with open(file_store, "r", encoding="UTF-8", newline="") as file:
                     # Guardamos los datos del fichero en una lista
                     data_list = json.load(file)
@@ -119,7 +130,7 @@ class VaccineManager:
                 # En caso de que el fichero no exista creamos una lista para almacenar los datos
                 data_list = []
             except json.JSONDecodeError as ex:
-                # Si se produce un error al decodificar mostaramos una excepcion
+                # Si se produce un error al decodificar mostramos una excepcion
                 raise VaccineManagementException(
                     "JSON decode error - formato JSON incorrecto") from ex
 
@@ -163,7 +174,7 @@ class VaccineManager:
 
         # Intentamos abrir el fichero de entrada y guardamos sus datos
         try:
-            # Intentamos abrir el fichero JSON
+            # Intentamos abrir el fichero JSON para leer
             with open(input_file, "r", encoding="UTF-8", newline="") as file:
                 # Guardamos los datos del fichero en una lista
                 data_list_input = json.load(file)
@@ -206,7 +217,7 @@ class VaccineManager:
 
         # Intentamos abrir el fichero store_patient y guardar sus datos
         try:
-            # Intentamos abrir el fichero JSON
+            # Intentamos abrir el fichero JSON para leer
             with open(file_store_patient, "r", encoding="UTF-8", newline="") as file:
                 # Guardamos los datos del fichero en una lista
                 data_list_patient = json.load(file)
@@ -236,17 +247,31 @@ class VaccineManager:
             days = 10
             my_register = VaccinationAppoinment(patient_id, patient_system_id, phone_number, days)
 
-            # Guardamos la cita en el fichero store_date
+            # Escribimos la cita en el fichero store_date
             # Buscamos la ruta en la que se almacena el fichero store_date
             json_files_path = str(Path.home()) \
                               + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF2"
             file_store_date = json_files_path + "/store_date.json"
 
             try:
+                # Intentamos abrir el fichero JSON para leer
+                with open(file_store_date, "r", encoding="UTF-8", newline="") as file:
+                    # Guardamos los datos del fichero en una lista
+                    data_list = json.load(file)
+            except FileNotFoundError:
+                # En caso de que el fichero no exista creamos una lista para almacenar los datos
+                data_list = []
+            except json.JSONDecodeError as ex:
+                # Si se produce un error al decodificar mostramos una excepcion
+                raise VaccineManagementException(
+                    "JSON decode error - formato JSON incorrecto") from ex
+
+            # Guardamos los datos de vacunación en la lista
+            data_list.append(my_register.__dict__)
+
+            try:
                 # Intentamos abrir el fichero JSON para escribir
                 with open(file_store_date, "w", encoding="UTF-8", newline="") as file:
-                    # Almacenamos sus datos en una lista
-                    data_list = [my_register.__dict__]
                     # Serializamos el objeto y guardamos los datos en el fichero
                     json.dump(data_list, file, indent=2)
             except FileNotFoundError as ex:
@@ -260,3 +285,87 @@ class VaccineManager:
 
         # Si la cita se crea correctamente, devolvemos su vaccination_signature
         return my_register.vaccination_signature
+
+    def vaccine_patient(self, date_signature):
+        """ Comprobamos la clave de entrada,  """
+
+        # Comprobamos que la firma SHA256 sigue el formato esperado
+        self.validate_date_signature(date_signature)
+
+        # Buscamos la ruta en la que se almacena el fichero store_date
+        json_files_path = str(Path.home()) \
+                          + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF2"
+        file_store_date = json_files_path + "/store_date.json"
+
+        # Intentamos abrir el fichero store_date y guardar sus datos
+        try:
+            # Intentamos abrir el fichero JSON
+            with open(file_store_date, "r", encoding="UTF-8", newline="") as file:
+                # Guardamos los datos del fichero en una lista
+                data_list_date = json.load(file)
+        except FileNotFoundError as ex:
+            # En caso de que el fichero no exista, lanzamos una excepcion
+            raise VaccineManagementException("Fichero store_date no creado") from ex
+        except json.JSONDecodeError as ex:
+            # Si los datos no siguen el formato JSON
+            raise VaccineManagementException(
+                "JSON decode error - formato JSON incorrecto") from ex
+
+        # Creamos una variable para guardar si se encuentra una cita con esa clave
+        found = False
+
+        # Recorremos las entradas de fichero
+        for item in date_signature:
+            # Si el date_signature se encuentra en el fichero (cita registrada)
+            if item["_VaccinationAppoinment__date_signature"] == date_signature:
+                found = True
+                # Obtenemos la fecha de la cita
+                date_time = item["_VaccinationAppoinment__appoinment_date"]
+
+        # Si la cita no está registrada, lanzamos una excepcion
+        if found is False:
+            raise VaccineManagementException("Cita no registrada")
+
+        # Guardamos la fecha de hoy
+        today = datetime.today().date()
+        # Convertimos el timestamp de la cita a fecha
+        appoinment_date = datetime.fromtimestamp(date_time).date()
+
+        # Si la fecha registrada en la cita no es hoy, lanzamos una excepcion
+        if appoinment_date != today:
+            raise VaccineManagementException("Cita no registrada para la fecha de hoy")
+
+        # Escribimos los datos de vacunación en el fichero store_vaccine
+        # Buscamos la ruta en la que se almacena el fichero store_vaccine
+        json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF3"
+        file_store_vaccine = json_files_path + "/store_vaccine.json"
+
+        try:
+            # Intentamos abrir el fichero JSON para leer
+            with open(file_store_vaccine, "r", encoding="UTF-8", newline="") as file:
+                # Guardamos los datos del fichero en una lista
+                data_list = json.load(file)
+        except FileNotFoundError:
+            # En caso de que el fichero no exista creamos una lista para almacenar los datos
+            data_list = []
+        except json.JSONDecodeError as ex:
+            # Si se produce un error al decodificar mostramos una excepcion
+            raise VaccineManagementException(
+                "JSON decode error - formato JSON incorrecto") from ex
+
+        # Guardamos los datos de vacunación en la lista
+        data_list.append(date_signature.__str__())
+        data_list.append(datetime.utcnow().__str__())
+
+        try:
+            # Intentamos abrir el fichero JSON para escribir
+            with open(file_store_vaccine, "w", encoding="UTF-8", newline="") as file:
+                # Serializamos el objeto y guardamos los datos en el fichero
+                json.dump(data_list, file, indent=2)
+        except FileNotFoundError as ex:
+            # Si no existe el fichero lanzamos una excepcion
+            raise VaccineManagementException(
+                "JSON file not found error - fichero o ruta incorrectos") from ex
+
+        # Si la clave y fecha son válidas, devolvemos True
+        return True

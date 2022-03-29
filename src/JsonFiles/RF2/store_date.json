@@ -6,6 +6,7 @@
     "_VaccinationAppoinment__patient_sys_id": "0a9d6f313a6355f54caf4cd00a21f2d1",
     "_VaccinationAppoinment__phone_number": "+34123456789",
     "_VaccinationAppoinment__issued_at": 1646300783.846215,
-    "_VaccinationAppoinment__appoinment_date": 1647164783.846215
+    "_VaccinationAppoinment__appoinment_date": 1647164783.846215,
+    "_VaccinationAppoinment__date_signature": "0b47c03009ee76e2c4ce33be4e37e6fb5b913f372a0be70c071f3042025d0987"
   }
 ]
