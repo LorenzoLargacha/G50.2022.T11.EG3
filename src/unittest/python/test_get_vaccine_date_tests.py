@@ -244,12 +244,14 @@ class MyTestCase(unittest.TestCase):
         # Llamamos al metodo get_vaccine_date
         value_1 = my_request.get_vaccine_date(input_file_1)
         # Comprobamos si el resultado es el esperado
-        self.assertEqual("0b47c03009ee76e2c4ce33be4e37e6fb5b913f372a0be70c071f3042025d0987", value_1)
+        self.assertEqual("0b47c03009ee76e2c4ce33be4e37e6fb5b913f372a0be70c071f3042025d0987",
+                         value_1)
 
         # Llamamos al metodo get_vaccine_date
         value_2 = my_request.get_vaccine_date(input_file_2)
         # Comprobamos si el resultado es el esperado
-        self.assertEqual("c5bc7fff26b8d2d98da73ec90147294920d029b53516a0a5d57272b32f790f1c", value_2)
+        self.assertEqual("c5bc7fff26b8d2d98da73ec90147294920d029b53516a0a5d57272b32f790f1c",
+                         value_2)
 
         # Comprobamos que se guarda la cita en store_date
         try:

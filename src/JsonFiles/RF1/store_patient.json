@@ -7,5 +7,14 @@
     "_VaccinePatientRegister__age": "6",
     "_VaccinePatientRegister__time_stamp": 1646300783.846215,
     "_VaccinePatientRegister__patient_sys_id": "0a9d6f313a6355f54caf4cd00a21f2d1"
+  },
+  {
+    "_VaccinePatientRegister__patient_id": "bb5dbd6f-d8b4-413f-8eb9-aa333dbd45c2",
+    "_VaccinePatientRegister__full_name": "Juan Martinez",
+    "_VaccinePatientRegister__registration_type": "Regular",
+    "_VaccinePatientRegister__phone_number": "+34666666666",
+    "_VaccinePatientRegister__age": "21",
+    "_VaccinePatientRegister__time_stamp": 1646300783.846215,
+    "_VaccinePatientRegister__patient_sys_id": "f3dad58e1b5ac99ac8ab6aa7764d2db3"
   }
 ]

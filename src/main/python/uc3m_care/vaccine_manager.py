@@ -328,8 +328,10 @@ class VaccineManager:
 
         # Guardamos la fecha de hoy
         today = datetime.today().date()
+        # print(today)
         # Convertimos el timestamp de la cita a fecha
         appoinment_date = datetime.fromtimestamp(date_time).date()
+        # print(appoinment_date)
 
         # Si la fecha registrada en la cita no es hoy, lanzamos una excepcion
         if appoinment_date != today:
