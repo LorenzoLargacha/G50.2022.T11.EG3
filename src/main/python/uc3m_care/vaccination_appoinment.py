@@ -14,6 +14,11 @@ class VaccinationAppoinment:
         self.__phone_number = patient_phone_number
         justnow = datetime.utcnow()
         self.__issued_at = datetime.timestamp(justnow)
+
+        # RF2 -> evitamos que cambie la hora (borrar despues, solo sirve para los tests)
+        # self.__time_stamp = 1646300783.846215
+        # self.__issued_at = self.__time_stamp
+
         if days == 0:
             self.__appoinment_date = 0
         else:

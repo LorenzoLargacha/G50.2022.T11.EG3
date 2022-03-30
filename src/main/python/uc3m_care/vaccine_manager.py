@@ -43,7 +43,6 @@ class VaccineManager:
         """ Return True si el name es correcto, en otro caso Excepcion """
         if len(name) > 30:
             raise VaccineManagementException("Cadena de nombre y apellidos mayor de 30 caracteres")
-
         if len(name) < 1:
             raise VaccineManagementException("Cadena de nombre vacia")
 
@@ -103,7 +102,7 @@ class VaccineManager:
         return True
 
     def request_vaccination_id(self, patient_id, registration_type, name, phone_number, age):
-        """ Creamos un nuevo paciente con los atributos pasados como parametro,
+        """ Creamos un nuevo paciente con los atributos pasados como parámetro,
         y devolvemos el patient_system_id del paciente """
 
         # Buscamos la ruta en la que se almacena el fichero store_patient
@@ -299,7 +298,7 @@ class VaccineManager:
 
         # Intentamos abrir el fichero store_date y guardar sus datos
         try:
-            # Intentamos abrir el fichero JSON
+            # Intentamos abrir el fichero JSON para leer
             with open(file_store_date, "r", encoding="UTF-8", newline="") as file:
                 # Guardamos los datos del fichero en una lista
                 data_list_date = json.load(file)

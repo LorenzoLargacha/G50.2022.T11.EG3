@@ -7,7 +7,6 @@ import hashlib
 from freezegun import freeze_time
 
 from uc3m_care import VaccineManager
-# from uc3m_care import VaccinationAppoinment
 from uc3m_care import VaccineManagementException
 
 
@@ -21,7 +20,7 @@ class MyTestCase(unittest.TestCase):
         json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF1"
         file_store_patient = json_files_path + "/store_patient.json"
 
-        # Buscamos la ruta en la que se almacena el fichero de test
+        # Buscamos la ruta en la que se almacena el fichero de test (solicitud de cita)
         json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF2"
         input_file = json_files_path + "/test_ok.json"
 
@@ -67,7 +66,7 @@ class MyTestCase(unittest.TestCase):
             # En caso de que el fichero no exista, lanzamos una excepcion
             raise VaccineManagementException("Fichero no creado") from ex
         except json.JSONDecodeError as ex:
-            # Si se produce un error al decodificar mostaramos una excepcion
+            # Si se produce un error al decodificar mostramos una excepcion
             raise VaccineManagementException(
                 "JSON decode error - formato JSON incorrecto") from ex
 
@@ -129,7 +128,7 @@ class MyTestCase(unittest.TestCase):
         # Cargamos los parametros de la lista
         for par1, par2, par3 in param_list_nok:
             with self.subTest():
-                # Buscamos la ruta en la que se almacena el fichero de test
+                # Buscamos la ruta en la que se almacena el fichero de test (solicitud de cita)
                 json_files_path = str(Path.home()) \
                                   + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF2"
                 input_file = json_files_path + par1
@@ -155,7 +154,7 @@ class MyTestCase(unittest.TestCase):
                 # Mostramos el test que se esta ejecutando
                 print(par3)
 
-    def test_71_no_store_patient(self):
+    def test_71_no_store_patient_nok(self):
         """ Test no valido de la funcion get_vaccine_date,
         para comprobar que se lanza excepcion cuando no hay fichero store_patient """
         # Buscamos la ruta en la que se almacena el fichero store_patient
@@ -175,7 +174,7 @@ class MyTestCase(unittest.TestCase):
         # Seleccionamos la clase sobre la que se ejecuta el test
         my_request = VaccineManager()
 
-        # Buscamos la ruta en la que se almacena el fichero de test
+        # Buscamos la ruta en la que se almacena el fichero de test (solicitud de cita)
         json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF2"
         input_file = json_files_path + "/test_ok.json"
 
@@ -197,12 +196,11 @@ class MyTestCase(unittest.TestCase):
         """ Test valido de la funcion get_vaccine_date,
         comprobamos que si se piden dos citas seguidas, para dos pacientes distintos,
         estas se crean y almacenan """
-
         # Buscamos la ruta en la que se almacena el fichero store_patient
         json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF1"
         file_store_patient = json_files_path + "/store_patient.json"
 
-        # Buscamos la ruta en la que se almacena el fichero de test
+        # Buscamos la ruta en la que se almacena el fichero de test (solicitud de cita)
         json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF2"
         input_file_1 = json_files_path + "/test_ok.json"
         input_file_2 = json_files_path + "/test_ok_2.json"
@@ -263,7 +261,7 @@ class MyTestCase(unittest.TestCase):
             # En caso de que el fichero no exista, lanzamos una excepcion
             raise VaccineManagementException("Fichero no creado") from ex
         except json.JSONDecodeError as ex:
-            # Si se produce un error al decodificar mostaramos una excepcion
+            # Si se produce un error al decodificar mostramos una excepcion
             raise VaccineManagementException(
                 "JSON decode error - formato JSON incorrecto") from ex
 
@@ -305,7 +303,7 @@ class MyTestCase(unittest.TestCase):
         print("test_72")
 
 
-# Parametros para los test not valid request vaccination id
+# Parámetros para los test not valid get_vaccine_date
 param_list_nok = [("/test_fichero_vacio.json",
                    "La solicitud no se encontro en el archivo de solicitudes JSON", "test_2"),
                   ("/test_doble_contenido.json",

@@ -100,7 +100,6 @@ class VaccinePatientRegister:
         # Cambiamos la obtencion del string a la funcion __md5_string
         return hashlib.md5(self.__md5_string().encode()).hexdigest()
 
-
     @property
     def patient_age(self):
         """Returns the patient's age"""

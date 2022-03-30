@@ -94,7 +94,6 @@ class MyTestCase(unittest.TestCase):
     def test_22_validate_json_data_nok(self):
         """ Test no valido de la funcion validate_json_data,
         los datos no son válidos y no se guardan en el fichero """
-
         # Buscamos la ruta en la que se almacena el fichero
         json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF1"
         file_store = json_files_path + "/store_patient.json"
@@ -185,7 +184,7 @@ class MyTestCase(unittest.TestCase):
         """ Metodo para comprobar si un paciente esta en el fichero Json """
         # Return True si paciente se encuentra en el fichero, False en otro caso
         try:
-            # Intentamos abrir el fichero JSON
+            # Intentamos abrir el fichero JSON para leer
             with open(file_store, "r", encoding="UTF-8", newline="") as file:
                 # Guardamos los datos del fichero en una lista
                 data_list = json.load(file)
@@ -193,7 +192,7 @@ class MyTestCase(unittest.TestCase):
             # En caso de que el fichero no exista, lanzamos una excepcion
             raise VaccineManagementException("Fichero no creado") from ex
         except json.JSONDecodeError as ex:
-            # Si se produce un error al decodificar mostaramos una excepcion
+            # Si se produce un error al decodificar mostramos una excepcion
             raise VaccineManagementException(
                 "JSON decode error - formato JSON incorrecto") from ex
 
@@ -214,7 +213,7 @@ class MyTestCase(unittest.TestCase):
         return found
 
 
-# Parametros para los test valid request vaccination id
+# Parámetros para los test valid request_vaccination_id
 param_list_ok = [("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
                   "Regular", "NomTreintacaracteres yunblanco", "+34123456789", "6",
                   "0a9d6f313a6355f54caf4cd00a21f2d1", "test_1"),
@@ -228,7 +227,7 @@ param_list_ok = [("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
                   "Family", "Carmen Carrero", "+34123456789", "124",
                   "a1c63840bbf5cf066a2c09d05173595a", "test_19")]
 
-# Parametros para los test not valid request vaccination id
+# Parámetros para los test not valid request_vaccination_id
 param_list_nok = [("bb5dbd6f-d8b4-113f-8eb9-dd262cfc54e0",
                    "Regular", "Carmen Carrero", "+34123456789", "22",
                    "Formato del UUID invalido", "test_3"),
