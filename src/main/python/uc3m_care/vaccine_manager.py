@@ -160,12 +160,14 @@ class VaccineManager:
                     raise VaccineManagementException(
                         "JSON file not found error - fichero o ruta incorrectos") from ex
 
+                # Si el paciente se crea correctamente, devolvemos su patient_system_id
+                return my_register.patient_sys_id
+
             # Si ese paciente ya se encuentra en el fichero lanzamos una excepcion
             if found is True:
                 raise VaccineManagementException("Paciente ya registrado")
 
-        # Si el paciente se crea correctamente, devolvemos su patient_system_id
-        return my_register.patient_system_id
+        return
 
     def get_vaccine_date(self, input_file):
         """ Leemos el fichero de entrada, comprobamos los campos,
@@ -176,7 +178,7 @@ class VaccineManager:
             # Intentamos abrir el fichero JSON para leer
             with open(input_file, "r", encoding="UTF-8", newline="") as file:
                 # Guardamos los datos del fichero en una lista
-                data_list_input = json.load(file)
+                data_input = json.load(file)
         except FileNotFoundError as ex:
             # En caso de que el fichero no exista, lanzamos una excepcion
             raise VaccineManagementException("Fichero input_file no creado") from ex
@@ -187,28 +189,26 @@ class VaccineManager:
 
         # Comprobamos la estructura del fichero JSON
         # Si la solicitud no se encuentra en el fichero lanzamos una excepcion
-        if len(data_list_input) == 0:
-            raise VaccineManagementException("La solicitud no se encontro en el archivo de solicitudes JSON")
+        if len(data_input) == 0:
+            raise VaccineManagementException(
+                "La solicitud no se encontro en el archivo de solicitudes JSON")
 
-        # Recorremos las entradas del fichero para comprobar etiquetas y valores
-        for item in data_list_input:
-            # Si el fichero JSON solo tiene un item, y el item solo tiene dos etiquetas,
-            # y las etiquetas son correctas, entonces comprobamos los valores
-            # ------ comprobar que no haya dos etiquetas iguales? o ya lo hace JSONDecodeError ? hay que hacer otro test?
-            # ------ debe funcionar para un fichero con muchas solicitudes? no dice nada
-            # ------ un mismo paciente puede pedir varias citas? no dice nada
-            if len(data_list_input) == 1 and len(item) == 2 \
-                    and "PatientSystemID" in item and "ContactPhoneNumber" in item:
-                # Comprobamos si los valores son válidos y los guardamos
-                if (self.validate_phone_number(item["ContactPhoneNumber"])) \
-                        and (self.validate_patient_system_id(item["PatientSystemID"])):
-                    patient_system_id = item["PatientSystemID"]
-                    phone_number = item["ContactPhoneNumber"]
+        # Comprobamos que solo haya una solicitud de cita con dos keys
+        if not len(data_input) == 2:
+            raise VaccineManagementException("Estructura JSON incorrecta")
 
-            # Si la estructura NO es correcta lanzamos una excepcion
-            # (si las etiquetas no son correctas)
-            else:
-                raise VaccineManagementException("Estructura JSON incorrecta")
+        # Intentamos buscar las claves en el diccionario
+        try:
+            # Si las claves son las esperadas las guardamos
+            patient_system_id = data_input["PatientSystemID"]
+            phone_number = data_input["ContactPhoneNumber"]
+        # Si las etiquetas no son correctas lanzamos una excepcion
+        except KeyError as error:
+            raise VaccineManagementException("Estructura JSON incorrecta") from error
+
+        # Comprobamos si los valores son válidos
+        self.validate_phone_number(phone_number)
+        self.validate_patient_system_id(patient_system_id)
 
         # Buscamos la ruta en la que se almacena el fichero store_patient
         json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF1"
@@ -278,12 +278,14 @@ class VaccineManager:
                 raise VaccineManagementException(
                     "JSON file not found error - fichero o ruta incorrectos") from ex
 
+            # Si la cita se crea correctamente, devolvemos su vaccination_signature
+            return my_register.vaccination_signature
+
         # Si el paciente no está registrado, lanzamos una excepcion
         if found is False:
             raise VaccineManagementException("Paciente no registrado")
 
-        # Si la cita se crea correctamente, devolvemos su vaccination_signature
-        return my_register.vaccination_signature
+        return
 
     def vaccine_patient(self, date_signature):
         """ Comprobamos la clave de entrada, buscamos si la cita esta registrada,
@@ -327,10 +329,8 @@ class VaccineManager:
 
         # Guardamos la fecha de hoy
         today = datetime.today().date()
-        # print(today)
         # Convertimos el timestamp de la cita a fecha
         appoinment_date = datetime.fromtimestamp(date_time).date()
-        # print(appoinment_date)
 
         # Si la fecha registrada en la cita no es hoy, lanzamos una excepcion
         if appoinment_date != today:

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="test_request_vaccine_tests.MyTestCase-20220331163131" tests="4" file="test_request_vaccine_tests.py" time="0.150" timestamp="2022-03-31T16:31:32" failures="0" errors="0" skipped="0">
+	<testcase classname="test_request_vaccine_tests.MyTestCase" name="test_22_validate_json_data_nok" time="0.004" timestamp="2022-03-31T16:31:32"/>
+	<testcase classname="test_request_vaccine_tests.MyTestCase" name="test_23_validate_json_data_nok" time="0.006" timestamp="2022-03-31T16:31:32"/>
+	<testcase classname="test_request_vaccine_tests.MyTestCase" name="test_parametrized_not_valid_request_vaccination_id" time="0.101" timestamp="2022-03-31T16:31:32"/>
+	<testcase classname="test_request_vaccine_tests.MyTestCase" name="test_parametrized_valid_request_vaccination_id" time="0.038" timestamp="2022-03-31T16:31:32"/>
+</testsuite>

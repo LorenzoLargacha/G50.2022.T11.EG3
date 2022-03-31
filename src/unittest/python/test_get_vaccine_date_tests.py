@@ -305,7 +305,7 @@ class MyTestCase(unittest.TestCase):
 
 # Parámetros para los test not valid get_vaccine_date
 param_list_nok = [("/test_fichero_vacio.json",
-                   "La solicitud no se encontro en el archivo de solicitudes JSON", "test_2"),
+                   "JSON decode error - formato JSON incorrecto", "test_2"),
                   ("/test_doble_contenido.json",
                    "JSON decode error - formato JSON incorrecto", "test_3"),
                   ("/test_no_llave_ini.json",
@@ -315,7 +315,7 @@ param_list_nok = [("/test_fichero_vacio.json",
                   ("/test_modif_llave_ini.json",
                    "JSON decode error - formato JSON incorrecto", "test_6"),
                   ("/test_no_datos.json",
-                   "Estructura JSON incorrecta", "test_7"),
+                   "La solicitud no se encontro en el archivo de solicitudes JSON", "test_7"),
                   ("/test_doble_datos.json",
                    "JSON decode error - formato JSON incorrecto", "test_8"),
                   ("/test_no_llave_fin.json",

@@ -1,6 +1,4 @@
-[
-  {
-    "PatientSystemID":"",
-    "ContactPhoneNumber":"+34123456789"
-  }
-]
+{
+  "PatientSystemID":"",
+  "ContactPhoneNumber":"+34123456789"
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="test_vaccine_patient_tests.MyTestCase-20220331163130" tests="13" file="test_vaccine_patient_tests.py" time="0.190" timestamp="2022-03-31T16:31:31" failures="0" errors="0" skipped="0">
+	<testcase classname="test_vaccine_patient_tests.MyTestCase" name="test_10_validate_date_signature_ok" time="0.021" timestamp="2022-03-31T16:31:30"/>
+	<testcase classname="test_vaccine_patient_tests.MyTestCase" name="test_11_validate_date_signature_nok" time="0.009" timestamp="2022-03-31T16:31:30"/>
+	<testcase classname="test_vaccine_patient_tests.MyTestCase" name="test_12_store_date_with_data_first_ok" time="0.015" timestamp="2022-03-31T16:31:30"/>
+	<testcase classname="test_vaccine_patient_tests.MyTestCase" name="test_13_store_date_with_data_first_ok" time="0.020" timestamp="2022-03-31T16:31:30"/>
+	<testcase classname="test_vaccine_patient_tests.MyTestCase" name="test_1_vaccine_patient_ok" time="0.010" timestamp="2022-03-31T16:31:30"/>
+	<testcase classname="test_vaccine_patient_tests.MyTestCase" name="test_2_no_store_date_nok" time="0.013" timestamp="2022-03-31T16:31:30"/>
+	<testcase classname="test_vaccine_patient_tests.MyTestCase" name="test_3_store_date_incorrecto_nok" time="0.018" timestamp="2022-03-31T16:31:30"/>
+	<testcase classname="test_vaccine_patient_tests.MyTestCase" name="test_4_no_key_nok" time="0.009" timestamp="2022-03-31T16:31:30"/>
+	<testcase classname="test_vaccine_patient_tests.MyTestCase" name="test_5_store_date_vacio_nok" time="0.015" timestamp="2022-03-31T16:31:30"/>
+	<testcase classname="test_vaccine_patient_tests.MyTestCase" name="test_6_not_today_nok" time="0.014" timestamp="2022-03-31T16:31:30"/>
+	<testcase classname="test_vaccine_patient_tests.MyTestCase" name="test_7_store_vaccine_with_data_ok" time="0.014" timestamp="2022-03-31T16:31:30"/>
+	<testcase classname="test_vaccine_patient_tests.MyTestCase" name="test_8_store_vaccine_incorrecto_nok" time="0.014" timestamp="2022-03-31T16:31:30"/>
+	<testcase classname="test_vaccine_patient_tests.MyTestCase" name="test_9_incorrect_store_vaccine_path_nok" time="0.017" timestamp="2022-03-31T16:31:31"/>
+</testsuite>

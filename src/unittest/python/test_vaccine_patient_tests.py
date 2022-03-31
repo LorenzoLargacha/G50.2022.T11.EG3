@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 import unittest
 import hashlib
+from datetime import datetime
 from freezegun import freeze_time
 
 from uc3m_care import VaccineManager
@@ -90,7 +91,7 @@ class MyTestCase(unittest.TestCase):
             # Si se han guardado todos los datos de vacunación, found = True
             if date_signature == item:
                 found_1 = True
-            if "2022-03-13 09:46:23.846215" == item:
+            if str(datetime.today()) == item:
                 found_2 = True
 
         # Comprobamos si el resultado es el esperado
@@ -295,7 +296,7 @@ class MyTestCase(unittest.TestCase):
         """ SetUp adicional para los tests 7 y 12 """
         # Buscamos la ruta en la que se almacena el fichero de test (solicitud de cita)
         json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF2"
-        input_file = json_files_path + "/test_ok_7.json"
+        input_file = json_files_path + "/test_ok_2.json"
 
         # Seleccionamos la clase sobre la que se ejecuta el test
         my_request = VaccineManager()
@@ -319,7 +320,7 @@ class MyTestCase(unittest.TestCase):
         if os.path.isfile(file_store_vaccine):
             os.remove(file_store_vaccine)
 
-        # Llamamos al metodo setup_test_7 para registrar un segundo paciente y su cita
+        # Llamamos al metodo setup_test_7_12 para registrar un segundo paciente y su cita
         self.setup_test_7_12()
 
         # Seleccionamos la clase sobre la que se ejecuta el test
@@ -363,7 +364,7 @@ class MyTestCase(unittest.TestCase):
             # Si se han guardado todos los datos de vacunación, found = True
             if date_signature == item:
                 found_1 = True
-            if "2022-03-13 09:46:23.846215" == item:
+            if str(datetime.today()) == item:
                 found_2 = True
 
         # Comprobamos si el resultado es el esperado
@@ -470,7 +471,7 @@ class MyTestCase(unittest.TestCase):
         date_signature = "0b47c03009ee76e2c4ce33be4e37e6fb5b913f372a0be70c071f3042025d0987"
 
         # Llamamos al metodo validate_date_signature
-        value= my_request.validate_date_signature(date_signature)
+        value = my_request.validate_date_signature(date_signature)
 
         # Comprobamos que el metodo devuelve true
         self.assertTrue(value)
@@ -553,7 +554,7 @@ class MyTestCase(unittest.TestCase):
             # Si se han guardado todos los datos de vacunación, found = True
             if date_signature == item:
                 found_1 = True
-            if "2022-03-13 09:46:23.846215" == item:
+            if str(datetime.today()) == item:
                 found_2 = True
 
         # Comprobamos si el resultado es el esperado
@@ -562,6 +563,97 @@ class MyTestCase(unittest.TestCase):
 
         # Mostramos el test que se está ejecutando
         print("test_12")
+
+    @staticmethod
+    @freeze_time("2022-03-03 09:46:23.846215")
+    def setup_test_13():
+        """ SetUp adicional para el test 13 """
+        # Buscamos la ruta en la que se almacena el fichero de test (solicitud de cita)
+        json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF2"
+        input_file = json_files_path + "/test_ok_2.json"
+
+        # Seleccionamos la clase sobre la que se ejecuta el test
+        my_request = VaccineManager()
+
+        # Llamamos al metodo request_vaccination_id para registrar un segundo paciente
+        my_request.request_vaccination_id("bb5dbd6f-d8b4-413f-8eb9-aa333dbd45c2", "Regular",
+                                          "Juan Martinez", "+34666666666", "21")
+
+        # Llamamos al metodo get_vaccine_date para registrar la cita de ese paciente
+        my_request.get_vaccine_date(input_file)
+
+        # Llamamos al metodo request_vaccination_id para registrar un tercer paciente
+        my_request.request_vaccination_id("aa5dbd6f-d5b3-424c-8eb9-bb333dbd45d2", "Regular",
+                                          "Carmen Carrero", "+34777777777", "32")
+
+        # Llamamos al metodo get_vaccine_date para registrar la cita de ese paciente
+        input_file = json_files_path + "/test_ok_3.json"
+        my_request.get_vaccine_date(input_file)
+
+    @freeze_time("2022-03-13 09:46:23.846215")
+    def test_13_store_date_with_data_first_ok(self):
+        """ Test valido de la funcion vaccine_patient,
+        cuando en el fichero store_date ya hay dos pacientes guardados """
+        # Buscamos la ruta en la que se almacena el fichero store_vaccine
+        json_files_path = str(Path.home()) + "/PycharmProjects/G50.2022.T11.EG3/src/JsonFiles/RF3"
+        file_store_vaccine = json_files_path + "/store_vaccine.json"
+
+        # Si el fichero ya existe, lo borramos para no tener datos precargados
+        if os.path.isfile(file_store_vaccine):
+            os.remove(file_store_vaccine)
+
+        # Llamamos al metodo setup_test_13 para registrar el segundo y tercer paciente y sus citas
+        self.setup_test_13()
+
+        # Seleccionamos la clase sobre la que se ejecuta el test
+        my_request = VaccineManager()
+
+        # Llamamos al metodo vaccine_patient para el primer paciente
+        # (precargar datos en vaccine_patient)
+        my_request.vaccine_patient(
+            "0b47c03009ee76e2c4ce33be4e37e6fb5b913f372a0be70c071f3042025d0987")
+
+        # Creamos la variable date_signature del tercer paciente
+        date_signature = "a631d4acc195209079e1e1c17e51723cf6af00abad455a5d074d06033f85d62c"
+
+        # Llamamos al metodo vaccine_patient para el tercer paciente (Carmen Carrero)
+        value = my_request.vaccine_patient(date_signature)
+
+        # Comprobamos si el resultado es el esperado
+        self.assertTrue(value)
+
+        # Comprobamos que se guarda la cita del segundo paciente en store_vaccine
+        try:
+            # Intentamos abrir el fichero JSON para leer
+            with open(file_store_vaccine, "r", encoding="UTF-8", newline="") as file:
+                # Guardamos los datos del fichero en una lista
+                data_list = json.load(file)
+        except FileNotFoundError as ex:
+            # En caso de que el fichero no exista, lanzamos una excepcion
+            raise VaccineManagementException("Fichero no creado") from ex
+        except json.JSONDecodeError as ex:
+            # Si se produce un error al decodificar mostramos una excepcion
+            raise VaccineManagementException(
+                "JSON decode error - formato JSON incorrecto") from ex
+
+        # Creamos una variable para guardar si se encuentran los datos de vacunación del paciente
+        found_1 = False
+        found_2 = False
+
+        # Recorremos las entradas de fichero
+        for item in data_list:
+            # Si se han guardado todos los datos de vacunación, found = True
+            if date_signature == item:
+                found_1 = True
+            if str(datetime.today()) == item:
+                found_2 = True
+
+        # Comprobamos si el resultado es el esperado
+        self.assertTrue(found_1)
+        self.assertTrue(found_2)
+
+        # Mostramos el test que se está ejecutando
+        print("test_13")
 
 
 if __name__ == '__main__':
